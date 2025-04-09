@@ -20,7 +20,7 @@ import Category from './Category.js';
  */
 export default class Topic {
   constructor (node, surly) {
-    var topicName = node.attr('name').value(),
+    var topicName = node.getAttribute('name').value(),
       categories = node.find('category');
 
     for (var i = 0; i < categories.length; i++) {

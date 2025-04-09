@@ -8,10 +8,10 @@ export default class Li extends BaseNode {
     super(node, surly);
     this.type = 'li';
 
-    var name = node.attr('name');
+    var name = node.getAttribute('name');
     if (name !== null) this.name = name.value();
 
-    var value = node.attr('value');
+    var value = node.getAttribute('value');
     if (value !== null) this.value = value.value();
   }
 };

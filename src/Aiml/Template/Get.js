@@ -28,8 +28,8 @@ export default class Get extends BaseNode {
   constructor (node, surly) {
     super(node, surly);
     this.type = 'get';
-    this.name = node.attr('name').value();
-    this.default = node.attr('default');
+    this.name = node.getAttribute('name')?.value() || "GET"; // @TODO do something else
+    this.default = node.getAttribute('default');
 
     if (!this.name) {
       throw "Invalid AIML: Get tag with no name attribute.";

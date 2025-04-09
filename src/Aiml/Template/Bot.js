@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -19,20 +19,18 @@ import BaseNode from '../BaseNode.js';
  * <!-- Category: aiml-template-elements -->
  * <aiml:bot name = aiml-predicate-name />
  */
-class Bot extends BaseNode {
-  constructor (node, surly) {
+export default class Bot extends BaseNode {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'bot';
-    this.name = node.attr('name').value();
+    this.type = "bot";
+    this.name = node.getAttribute("name")?.value() || "BOT"; // @todo DO SOMETHING ELSE!
 
     if (!this.name) {
       throw "Invalid AIML: Bot tag with no name attribute.";
     }
   }
 
-  getText (callback) {
+  getText(callback) {
     callback(null, this.surly.environment.getBot(this.name));
   }
-};
-
-export default Bot;
+}

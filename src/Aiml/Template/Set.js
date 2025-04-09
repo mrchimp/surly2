@@ -33,7 +33,7 @@ export default class Set extends BaseNode {
   constructor (node, surly) {
     super(node, surly);
     this.type = 'set';
-    this.name = node.attr('name').value();
+    this.name = node.getAttribute('name')?.value();
   }
 
   getText (callback) {

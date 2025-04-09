@@ -27,8 +27,8 @@ export default class Condition extends BaseNode {
   constructor (node, surly) {
     super(node, surly);
     this.type = 'condition';
-    var name = node.attr('name');
-    var value = node.attr('value');
+    var name = node.getAttribute('name');
+    var value = node.getAttribute('value');
 
     if (name !== null && value !== null) {
       this.conditional_type = 'blockCondition';

@@ -1,5 +1,10 @@
 import BaseNode from '../BaseNode.js';
 
+
+import libxmljs from 'libxmljs';
+import substitute from '../../Substitutions.js';
+import Star from './Star.js';
+
 /**
  * From AIML Spec. Handles both the transformational PERSON2 element and
  * the PERSON2 shortcut element
@@ -61,7 +66,3 @@ export default class Person2 extends BaseNode {
     });
   }
 };
-
-const libxmljs = require('libxmljs');
-const substitute = require('../../Substitutions');
-const Star = require('./Star');

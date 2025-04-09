@@ -28,8 +28,8 @@ export default class Star extends BaseNode {
 
     this.type = 'star';
 
-    if (node.attr('index')) {
-      this.index = node.attr('index').value() - 1;
+    if (node.getAttribute('index')) {
+      this.index = node.getAttribute('index').value() - 1;
     } else {
       this.index = 0;
     }

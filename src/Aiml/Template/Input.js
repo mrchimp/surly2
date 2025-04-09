@@ -33,11 +33,11 @@ export default class That extends BaseNode {
     super(node, surly);
     this.type = 'that';
 
-    if (node.attr('index') === null) {
+    if (node.getAttribute('index') === null) {
       index = '1,1';
     } else {
       index = node
-        .attr('index')
+        .getAttribute('index')
         .value();
     }
 

@@ -2,6 +2,7 @@ import Template from './Template.js';
 import Pattern from './Pattern.js';
 import PatternThat from './Pattern/That.js';
 import Debug from 'debug';
+import { parseTemplate } from './Parser.js';
 
 const debug = Debug('surly2');
 
@@ -47,7 +48,8 @@ export default class Category {
 
     this.pattern = new Pattern(patterns[0], surly);
     this.pattern.category = this;
-    this.template = new Template(templates[0], surly);
+    this.template = parseTemplate(templates[0], surly);
+    // this.template = new Template(templates[0], surly);
     this.template.category = this;
     this.that = '';
 

@@ -1,4 +1,7 @@
 import BaseNode from '../BaseNode.js';
+import libxmljs from 'libxmljs';
+import substitute from '../../Substitutions.js';
+import Star from './Star.js';
 
 /**
  * From AIML Spec. Handles both the transformational GENDER element and
@@ -65,7 +68,3 @@ export default class Gender extends BaseNode {
     });
   }
 };
-
-const libxmljs = require('libxmljs');
-const substitute = require('../../Substitutions');
-const Star = require('./Star');

@@ -1,5 +1,4 @@
 import BaseNode from '../BaseNode.js';
-import Surly from '../../Surly.js';
 
 /**
  * From AIML Spec

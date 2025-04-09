@@ -9,7 +9,7 @@ export default class Inventory extends BaseNode{
   constructor (node, surly) {
     super(node, surly);
     this.type = 'inventory';
-    this.action = node.attr('action').value();
+    this.action = node.getAttribute('action')?.value();
   }
 
   getText (callback) {
