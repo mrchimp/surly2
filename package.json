@@ -3,17 +3,20 @@
   "version": "2.0.0-beta",
   "description": "An AIML interpreter",
   "main": "src/Surly.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   },
   "author": "MrChimp <chimpytk@gmail.com> (http://deviouschimp.co.uk/)",
   "license": "ISC",
   "dependencies": {
-    "async": "^1.5.2",
-    "debug": "^2.6.6",
+    "async": "^3.2.6",
+    "debug": "^4.4.0",
     "fs": "0.0.2",
-    "libxmljs": "^0.18",
-    "node-xmpp-client": "^3.0.0",
-    "rc": "^1.1.6"
+    "libxmljs": "^1.0.11",
+    "rc": "^1.2.8"
   }
 }

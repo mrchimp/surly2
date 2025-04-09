@@ -1,6 +1,4 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * From AIML Spec. Handles both the transformational PERSON2 element and
@@ -46,7 +44,7 @@ var BaseNode = require('../BaseNode');
  * about whether to transform the person aspect of other words is left up to the
  * implementation.
  */
-module.exports = class Person2 extends BaseNode {
+export default class Person2 extends BaseNode {
   constructor (node, surly) {
     super(node, surly);
     this.type = 'person2';

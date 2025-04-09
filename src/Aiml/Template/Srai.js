@@ -1,7 +1,5 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
-var Surly = require('../../Surly');
+import BaseNode from '../BaseNode.js';
+import Surly from '../../Surly.js';
 
 /**
  * From AIML Spec
@@ -21,7 +19,7 @@ var Surly = require('../../Surly');
  *    <!-- Contents: aiml-template-elements -->
  * </aiml:srai>
  */
-module.exports = class Srai extends BaseNode {
+export default class Srai extends BaseNode {
 
   /**
    * Constructor method

@@ -1,6 +1,4 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * From AIML Spec
@@ -22,7 +20,7 @@ var BaseNode = require('../BaseNode');
  *
  * See Unicode Case Mapping for implementation suggestions.
  */
-module.exports = class Formal extends BaseNode {
+export default class Formal extends BaseNode {
   getText (callback) {
     this.evaluateChildren(function (err, text) {
       text = text

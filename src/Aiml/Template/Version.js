@@ -1,6 +1,4 @@
-"use strict";
-
-var pkg = require('../../../package.json');
+import pkg from '../../../package.json' with { type: "json" };
 
 /**
  * From AIML Spec
@@ -14,7 +12,7 @@ var pkg = require('../../../package.json');
  * <!-- Category: aiml-template-elements -->
  * <aiml:version/>
  */
-module.exports = class Version {
+export default class Version {
   constructor () {
     this.type = 'version';
   }

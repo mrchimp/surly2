@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 
-var pkg = require('./package.json');
-var Surly = require('./src/Surly');
-var conf = require('rc')('surly2', {
+import pkg from './package.json' with { type: "json" };
+import Surly from './src/Surly.js';
+import Rc from "rc";
+import Debug from "debug";
+
+var conf = Rc('surly2', {
     brain: '',      b: '',
     help: false,
     version: false
 });
-const debug = require('debug')('surly2');
+const debug = Debug('surly2');
 
 var options = {
     brain: conf.b || conf.brain || __dirname + '/data/aiml',

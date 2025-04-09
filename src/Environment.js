@@ -1,10 +1,10 @@
-"use strict";
+import Stack from './stack.js';
 
 /**
  * Handles the AIML chat environment. Keeps track of variables, bot attributes,
  * user attributes etc.
  */
-module.exports = class Environment {
+export default class Environment {
   constructor () {
     this.bot_attributes = { // @todo - store these somewhere more appropriate
       "age": "1",
@@ -202,5 +202,3 @@ module.exports = class Environment {
     return '';
   }
 };
-
-var Stack = require('./stack');

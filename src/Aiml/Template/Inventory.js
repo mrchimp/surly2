@@ -1,13 +1,11 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * Not part of the AIML Spec.
  *
  * Handles a list of items that the bot can hold onto.
  */
-module.exports = class Inventory extends BaseNode{
+export default class Inventory extends BaseNode{
   constructor (node, surly) {
     super(node, surly);
     this.type = 'inventory';

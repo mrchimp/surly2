@@ -1,11 +1,9 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * A generic container element use in conditionals and the Random element.
  */
-module.exports = class Li extends BaseNode {
+export default class Li extends BaseNode {
   constructor (node, surly) {
     super(node, surly);
     this.type = 'li';

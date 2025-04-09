@@ -1,17 +1,17 @@
-"use strict";
+import fs from 'fs';
+import async from 'async';
+import BaseNode from './BaseNode.js';
+import libxmljs from 'libxmljs';
+import Category from './Category.js';
+import Debug from 'debug';
 
-const fs = require('fs');
-const async = require('async');
-const BaseNode = require('./BaseNode');
-const libxmljs = require('libxmljs');
-const Category = require('./Category');
-const debug = require('debug')('surly2');
+const debug = Debug('surly2');
 
 /**
 * Main AIML handler. Contains a list of category nodes, potentially loaded
 * from multiple files.
 */
-module.exports = class Aiml {
+export default class Aiml {
   constructor (options) {
     this.surly = options.surly;
     this.wipe();

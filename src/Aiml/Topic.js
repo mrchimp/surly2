@@ -1,6 +1,4 @@
-"use strict";
-
-const Category = require('./Category');
+import Category from './Category.js';
 
 /**
  * From AIML Spec
@@ -20,7 +18,7 @@ const Category = require('./Category');
  *    <!-- Content: aiml:category+ -->
  * </aiml:topic>
  */
-module.exports = class Topic {
+export default class Topic {
   constructor (node, surly) {
     var topicName = node.attr('name').value(),
       categories = node.find('category');

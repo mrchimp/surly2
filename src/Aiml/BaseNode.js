@@ -1,11 +1,35 @@
-"use strict";
+import async from 'async';
+import Logger from '../Logger.js';
+import Bot from './Template/Bot.js';
+import Condition from './Template/Condition.js';
+import DateNode from './Template/DateNode.js';
+import Formal from './Template/Formal.js';
+import Gender from './Template/Gender.js';
+import Get from './Template/Get.js';
+import That from './Template/That.js';
+import Think from './Template/Think.js';
+import Input from './Template/Input.js';
+import Inventory from './Template/Inventory.js';
+import Li from './Template/Li.js';
+import Lowercase from './Template/Lowercase.js';
+import Person from './Template/Person.js';
+import Person2 from './Template/Person2.js';
+import Random from './Template/Random.js';
+import Sentence from './Template/Sentence.js';
+import SetNode from './Template/Set.js';
+import Size from './Template/Size.js';
+import Sr from './Template/Sr.js';
+import Srai from './Template/Srai.js';
+import Star from './Template/Star.js';
+import TextNode from './Template/Text.js';
+import Uppercase from './Template/Uppercase.js';
+import Version from './Template/Version.js';
 
-const Logger = require('../Logger');
 
 /**
  * Base node class for nodes that can have children
  */
-module.exports = class BaseNode {
+export default class BaseNode {
 
   /**
    * Constructor method
@@ -146,30 +170,3 @@ module.exports = class BaseNode {
     return this.type;
   }
 };
-
-const async = require('async');
-
-const Bot = require('./Template/Bot');
-const Condition = require('./Template/Condition');
-const DateNode = require('./Template/DateNode');
-const Formal = require('./Template/Formal');
-const Gender = require('./Template/Gender');
-const Get = require('./Template/Get');
-const That = require('./Template/That');
-const Think = require('./Template/Think');
-const Input = require('./Template/Input');
-const Inventory = require('./Template/Inventory');
-const Li = require('./Template/Li');
-const Lowercase = require('./Template/Lowercase');
-const Person = require('./Template/Person');
-const Person2 = require('./Template/Person2');
-const Random = require('./Template/Random');
-const Sentence = require('./Template/Sentence');
-const SetNode = require('./Template/Set');
-const Size = require('./Template/Size');
-const Sr = require('./Template/Sr');
-const Srai = require('./Template/Srai');
-const Star = require('./Template/Star');
-const TextNode = require('./Template/Text');
-const Uppercase = require('./Template/Uppercase');
-const Version = require('./Template/Version');

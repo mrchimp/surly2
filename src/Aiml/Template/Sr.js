@@ -1,6 +1,4 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * From AIML Spec
@@ -14,7 +12,7 @@ var BaseNode = require('../BaseNode');
  * <!-- Category: aiml-template-elements -->
  * <aiml:sr/>
  */
-module.exports = class Sr extends BaseNode {
+export default class Sr extends BaseNode {
   constructor (node, surly) {
     super(node, surly);
     this.type = 'sr';

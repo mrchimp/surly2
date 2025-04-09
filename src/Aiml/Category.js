@@ -1,9 +1,9 @@
-"use strict";
+import Template from './Template.js';
+import Pattern from './Pattern.js';
+import PatternThat from './Pattern/That.js';
+import Debug from 'debug';
 
-const Template = require('./Template');
-const Pattern = require('./Pattern');
-const PatternThat = require('./Pattern/That');
-const debug = require('debug')('surly2');
+const debug = Debug('surly2');
 
 /**
  * From AIML Spec
@@ -24,7 +24,7 @@ const debug = require('debug')('surly2');
  *    <!-- Content: aiml-category-elements -->
  * </aiml:category>
  */
-module.exports = class Category {
+export default class Category {
 
   /**
    * Constructor method

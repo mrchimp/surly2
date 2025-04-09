@@ -1,6 +1,4 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * From AIML Spec
@@ -25,7 +23,7 @@ var BaseNode = require('../BaseNode');
  *   <li name="foo" value="baz">Foo is baz!</li>
  * </condition>
  */
-module.exports = class Condition extends BaseNode {
+export default class Condition extends BaseNode {
   constructor (node, surly) {
     super(node, surly);
     this.type = 'condition';

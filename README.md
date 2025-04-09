@@ -36,12 +36,11 @@ Config files are found and read by [rc](https://www.npmjs.com/package/rc). Check
 
 You probably just want to create `~/.surly2rc` and put something like this in it:
 
-    {
-        "brain": "/path/to/aiml/files",
-        "username": "someXMPPUser@example.com",
-        "password": "whatever"
-    }
-
+```json
+{
+    "brain": "/path/to/aiml/files",
+}
+```
 
 Usage
 =====
@@ -50,18 +49,14 @@ Usage
 2. Talk to Surly.
 3. Type `exit` to exit.
 
-Or chat over XMPP
-
-1. Set up a config file (see above) with XMPP details `username`, `password`, `host` and `port`.
-2. `node xmpp.js`
-3. You can't add contacts yet. You'll have to do that yourself somehow.
-
 Debugging
 =========
 
 Surly uses the [debug](https://www.npmjs.com/package/debug) npm package for debugging. E.g.
 
-    DEBUG=surly2 node cli.js
+```sh
+DEBUG=surly2 node cli.js
+```
 
 Thanks
 ======

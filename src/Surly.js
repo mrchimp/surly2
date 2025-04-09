@@ -1,12 +1,13 @@
 "use strict";
 
-const fs = require('fs');
-const Stack = require('./stack');
-const Aiml = require('./Aiml/Aiml');
-const Environment = require('./Environment');
-const debug = require('debug')('surly2');
+import Stack from './stack.js';
+import Aiml from './Aiml/Aiml.js';
+import Environment from './Environment.js';
+import Debug from 'debug';
 
-module.exports = class Surly {
+const debug = Debug('surly2');
+
+export default class Surly {
   constructor (options) {
     this.brain = [];
     this.input_stack = new Stack(10);

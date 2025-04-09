@@ -1,6 +1,4 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * From AIML Spec. Handles both the transformational GENDER element and
@@ -48,9 +46,9 @@ var BaseNode = require('../BaseNode');
  * Historically, implementations of gender have exclusively dealt with pronouns,
  * likely due to the fact that most AIML has been written in English. However,
  * the decision about whether to transform gender of other words is left up to
- * the implementation. 
+ * the implementation.
  */
-module.exports = class Gender extends BaseNode {
+export default class Gender extends BaseNode {
   constructor (node, surly) {
     super(node, surly);
     this.type = 'gender';

@@ -1,6 +1,4 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * From AIML Spec
@@ -21,7 +19,7 @@ var BaseNode = require('../BaseNode');
  *
  * See Unicode Case Mapping for implementation suggestions.
  */
-module.exports = class Lowercase extends BaseNode {
+export default class Lowercase extends BaseNode {
   getText (callback) {
     this.evaluateChildren(function (err, text) {
       callback(err, text.toLowerCase());

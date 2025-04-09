@@ -1,6 +1,4 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * From AIML Spec
@@ -21,7 +19,7 @@ var BaseNode = require('../BaseNode');
  * <!-- Category: aiml-template-elements -->
  * <aiml:bot name = aiml-predicate-name />
  */
-module.exports = class Bot extends BaseNode {
+class Bot extends BaseNode {
   constructor (node, surly) {
     super(node, surly);
     this.type = 'bot';
@@ -36,3 +34,5 @@ module.exports = class Bot extends BaseNode {
     callback(null, this.surly.environment.getBot(this.name));
   }
 };
+
+export default Bot;

@@ -1,6 +1,8 @@
-"use strict";
+import BaseNode from '../BaseNode.js';
 
-var BaseNode = require('../BaseNode');
+import libxmljs from 'libxmljs';
+import substitute from '../../Substitutions.js';
+import Star from './Star.js';
 
 /**
  * From AIML Spec. Handles both the transformational PERSON element and
@@ -24,7 +26,7 @@ var BaseNode = require('../BaseNode');
  * TRANSFORMATIONAL
  *
  * The person element instructs the AIML interpreter to:
- * 
+ *
  *   1. replace words with first-person aspect in the result of processing the
  *       contents of the person element with words with the
  *       grammatically-corresponding third-person aspect; and
@@ -46,7 +48,7 @@ var BaseNode = require('../BaseNode');
  * implementation.
  */
 
-module.exports = class Person extends BaseNode {
+export default class Person extends BaseNode {
   constructor (node, surly) {
     super(node, surly);
     this.type = 'person';
@@ -63,7 +65,3 @@ module.exports = class Person extends BaseNode {
     });
   }
 };
-
-const libxmljs = require('libxmljs');
-const substitute = require('../../Substitutions');
-const Star = require('./Star');

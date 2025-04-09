@@ -1,6 +1,4 @@
-"use strict";
-
-const substitutions = require('../data/substitutions.json');
+import substitutions from '../data/substitutions.json' with { type: "json" };
 
 /**
  * Swap words in a given sentence from a given set of pairs.
@@ -8,7 +6,7 @@ const substitutions = require('../data/substitutions.json');
  * @param  {String} set      Set of substitutions to use
  * @return {String}          Updated sentence
  */
-module.exports = function (sentence, set) {
+export default function substitute(sentence, set) {
   var x, y, chunks = sentence.split(' ');
 
   if (typeof substitutions[set] === 'undefined') {

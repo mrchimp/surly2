@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * From AIML Spec
  * http://www.alicebot.org/TR/2001/WD-aiml/#section-pattern
@@ -17,7 +15,7 @@
  *    <!-- Content: aiml-pattern-expression -->
  * </aiml:pattern>
  */
-module.exports = class Pattern {
+export default class Pattern {
   constructor (pattern, surly) {
     this.surly = surly;
     this.wildcard_regex = ' ([A-Z|0-9|\\s]*[A-Z|0-9|-]*[A-Z|0-9]*[!|.|?|\\s]*)';

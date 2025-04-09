@@ -1,8 +1,6 @@
-"use strict";
+import fs from 'fs';
 
-const fs = require('fs');
-
-module.exports = class Logger {
+export default class Logger {
   /**
    * Log a message to the log file
    * @param  {String} msg

@@ -1,6 +1,4 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * From AIML Spec
@@ -16,7 +14,7 @@ var BaseNode = require('../BaseNode');
  *    <!-- Contents: default-list-item+ -->
  * </aiml:random>
  */
-module.exports = class Random extends BaseNode {
+export default class Random extends BaseNode {
   getText (callback) {
     var elem = this.children[Math.floor(Math.random() * this.children.length)];
 

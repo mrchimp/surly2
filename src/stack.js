@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Stack for holding stuff.
  * Based on code from my cmd.js
@@ -12,7 +10,7 @@
  * Constructor
  * @param {integer} max_size Number of commands to store
  */
-module.exports = class Stack {
+export default class Stack {
   constructor (max_size) {
     this.arr = []; // This is a fairly meaningless name but
     // makes it sound like this function was

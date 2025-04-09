@@ -1,6 +1,4 @@
-"use strict";
-
-var BaseNode = require('../BaseNode');
+import BaseNode from '../BaseNode.js';
 
 /**
  * From AIML Spec
@@ -28,7 +26,7 @@ var BaseNode = require('../BaseNode');
  * <!-- Category: aiml-template-elements -->
  * <aiml:that index = (single-integer-index | comma-separated-integer-pair) />
  */
-module.exports = class That extends BaseNode {
+class That extends BaseNode {
   constructor (node, surly) {
     var index;
 
@@ -58,3 +56,5 @@ module.exports = class That extends BaseNode {
     callback(null, this.surly.environment.getPreviousResponse(this.index, this.sentence));
   }
 };
+
+export default That;
