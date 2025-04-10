@@ -2,11 +2,12 @@
 
 Breaking Changes
 
-- Require Node 22+
-- Rewrite with ES modules
-- Remove XMPP support
-- Move from Yarn to NPM
+- [ ] Require Node 22+
+- [ ] Rewrite with ES modules
+- [ ] Remove XMPP support
+- [ ] Move from Yarn to NPM
 
 Other Changes
 
-- Replace libxmljs
+- [ ] Replace libxmljs
+- [ ] Fix deprecated dependencies

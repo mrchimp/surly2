@@ -7,16 +7,15 @@
  * within other elements.
  */
 export default class Text {
-
   /**
    * Constructor method
    * @param  {Node} node Xmllibjs node object
    */
-  constructor (node, surly) {
+  constructor(node, surly) {
     this.children = [];
-    this.type = 'text';
+    this.type = "text";
 
-    if (typeof node === 'string') {
+    if (typeof node === "string") {
       this.content = node;
     } else {
       this.content = node.toString();
@@ -31,7 +30,7 @@ export default class Text {
    * Return the node and any children as text
    * @return {String}
    */
-  getText (callback) { // function (err, output)
-    callback(null, this.content);
+  getText() {
+    return this.content;
   }
-};
+}

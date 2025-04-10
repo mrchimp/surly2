@@ -82,17 +82,18 @@ export default class Aiml {
    * Give a sentence and get a response
    */
   getResponse(sentence, callback) {
-    var template = this.findMatchingCategory(
-      sentence,
-      function (category) {
-        if (category) {
-          var template = category.getTemplate();
-          template.getText(callback);
-        } else {
-          callback("No match.", "Fuck knows.");
-        }
-      }.bind(this),
-    );
+    debug("getResponse", sentence);
+    const category = this.findMatchingCategory(sentence);
+
+    if (category) {
+      const template = category.getTemplate();
+      debug("Got template", template);
+      const templateText = template.getText();
+      debug("templateText", templateText);
+      return templateText;
+    } else {
+      return "Wat.";
+    }
   }
 
   /**
@@ -100,23 +101,29 @@ export default class Aiml {
    * with a `pattern` that matches `sentence`.
    * @param {String} sentence    Text input from user
    */
-  findMatchingCategory(sentence, foundCatCallback) {
+  findMatchingCategory(sentence) {
+    debug("findMatchingCategory", sentence);
     if (!this.hasData()) {
       throw "No data loaded.";
     }
 
+    if (!sentence) {
+      throw new Error("no sentence");
+    }
+
     sentence = this.normaliseSentence(sentence);
 
-    async.detectSeries(
-      this.categories,
-      function (item, callback) {
-        item.match(sentence, callback);
-      },
-      function (matchingCategory) {
-        // Shouldn't there be err here? What?!
-        foundCatCallback(matchingCategory);
-      },
+    debug("normalised sentence: " + sentence);
+
+    const matchingCategory = this.categories.find((item) =>
+      item.match(sentence),
     );
+
+    debug("matchingCategory", matchingCategory);
+
+    return matchingCategory;
+
+    // @todo do something if no match maybe?
   }
 
   /**

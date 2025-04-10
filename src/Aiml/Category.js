@@ -1,10 +1,10 @@
-import Template from './Template.js';
-import Pattern from './Pattern.js';
-import PatternThat from './Pattern/That.js';
-import Debug from 'debug';
-import { parseTemplate } from './Parser.js';
+import Template from "./Template.js";
+import Pattern from "./Pattern.js";
+import PatternThat from "./Pattern/That.js";
+import Debug from "debug";
+import { parseTemplate } from "./Parser.js";
 
-const debug = Debug('surly2');
+const debug = Debug("surly2");
 
 /**
  * From AIML Spec
@@ -26,24 +26,23 @@ const debug = Debug('surly2');
  * </aiml:category>
  */
 export default class Category {
-
   /**
    * Constructor method
    * @param  {Node} node Xmllibjs node object
    */
-  constructor (category, surly, topic) {
-    this.topic = topic || '*';
+  constructor(category, surly, topic) {
+    this.topic = topic || "*";
     this.surly = surly;
-    var patterns = category.find('pattern');
-    var templates = category.find('template');
-    var thats = category.find('that');
+    var patterns = category.find("pattern");
+    var templates = category.find("template");
+    var thats = category.find("that");
 
     if (patterns.length !== 1) {
-      throw 'Category should have exactly one PATTERN.';
+      throw "Category should have exactly one PATTERN.";
     }
 
     if (templates.length !== 1) {
-      throw 'Category should have exactly one TEMPLATE.';
+      throw "Category should have exactly one TEMPLATE.";
     }
 
     this.pattern = new Pattern(patterns[0], surly);
@@ -51,50 +50,48 @@ export default class Category {
     this.template = parseTemplate(templates[0], surly);
     // this.template = new Template(templates[0], surly);
     this.template.category = this;
-    this.that = '';
+    this.that = "";
 
     if (thats.length === 1) {
       this.that = new PatternThat(thats[0], surly, this);
       // this.that.category = this;
     } else if (thats.length > 1) {
-      throw 'Category must not contain more than one THAT.';
+      throw "Category must not contain more than one THAT.";
     }
   }
 
   /**
-  * Return the child pattern element
-  * @return {Pattern}
-  */
-  getPattern () {
+   * Return the child pattern element
+   * @return {Pattern}
+   */
+  getPattern() {
     return this.pattern;
   }
 
   /**
-  * Check whether the category has a <that> and whether
-  * if matches the previous response
-  * @param  {Object}  category Libxmljs category aiml node
-  * @return {Boolean}          True if <that> exists and matches
-  */
-  checkThat (callback) {
+   * Check whether the category has a <that> and whether
+   * if matches the previous response
+   * @param  {Object}  category Libxmljs category aiml node
+   * @return {Boolean}          True if <that> exists and matches
+   */
+  checkThat() {
     // If no THAT then it matches by default
     if (!this.that) {
-      debug('No THAT.');
-      return callback(true);
+      debug("No THAT.");
+      return true;
     }
 
-    this.that.getText(function (err, thatText) {
-      var previous = this.surly.environment.getPreviousResponse(1).toUpperCase();
-
-      debug('Comparing THAT - "' + thatText + '", "' + previous + '"');
-      callback(thatText === previous);
-    }.bind(this));
+    const thatText = this.that.getText();
+    var previous = this.surly.environment.getPreviousResponse(1).toUpperCase();
+    debug('Comparing THAT - "' + thatText + '", "' + previous + '"');
+    return thatText === previous;
   }
 
   /**
-  * Return the template node
-  * @return {Template}
-  */
-  getTemplate () {
+   * Return the template node
+   * @return {Template}
+   */
+  getTemplate() {
     return this.template;
   }
 
@@ -102,22 +99,25 @@ export default class Category {
    * Check the category against a given sentence. Also, if a THAT tag is present
    * in the category, check that against the previous response
    */
-  match (sentence, callback) {
+  match(sentence, callback) {
+    debug("Comparing pattern: " + this.pattern + " with " + sentence);
     if (this.pattern.compare(sentence)) {
-      debug('Matched pattern: ' + sentence + ' -- ' + this.pattern);
+      debug("Matched pattern: " + sentence + " -- " + this.pattern);
 
-      if (this.topic !== '*' &&
-        this.topic.toUpperCase() !== this.surly.environment.getVariable('topic')) {
-          callback(false);
-          return;
+      if (
+        this.topic !== "*" &&
+        this.topic.toUpperCase() !== this.surly.environment.getVariable("topic")
+      ) {
+        return false;
       }
 
-      this.checkThat(function (matches) {
-        callback(matches);
-      }.bind(this));
+      const thatMatch = this.checkThat();
+
+      debug("That match?", thatMatch);
+      return thatMatch;
     } else {
-      debug('No match');
-      callback(false);
+      debug("No match");
+      return false;
     }
   }
-};
+}

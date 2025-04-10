@@ -50,10 +50,10 @@ class That extends BaseNode {
     this.index = parseInt(index[0], 10);
   }
 
-  getText(callback) {
-    callback(
-      null,
-      this.surly.environment.getPreviousResponse(this.index, this.sentence),
+  getText() {
+    return this.surly.environment.getPreviousResponse(
+      this.index,
+      this.sentence,
     );
   }
 }
