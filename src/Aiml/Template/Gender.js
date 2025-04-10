@@ -1,7 +1,7 @@
-import BaseNode from '../BaseNode.js';
-import libxmljs from 'libxmljs';
-import substitute from '../../Substitutions.js';
-import Star from './Star.js';
+import BaseNode from "../BaseNode.js";
+import libxmljs from "libxmljs";
+import substitute from "../../Substitutions.js";
+import Star from "./Star.js";
 
 /**
  * From AIML Spec. Handles both the transformational GENDER element and
@@ -52,19 +52,17 @@ import Star from './Star.js';
  * the implementation.
  */
 export default class Gender extends BaseNode {
-  constructor (node, surly) {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'gender';
+    this.type = "gender";
 
     if (node.childNodes().length === 0) {
-      var star = new libxmljs.Element(node.doc(), 'star');
+      var star = new libxmljs.Element(node.doc(), "star");
       this.children.push(new Star(star, surly));
     }
   }
 
-  getText (callback) {
-    this.evaluateChildren(function (err, text) {
-      callback(err, substitute(text, 'gender'));
-    });
+  getText() {
+    return substitute(this.evaluateChildren(), "gender");
   }
-};
+}

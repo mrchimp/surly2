@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -13,11 +13,11 @@ import BaseNode from '../BaseNode.js';
  * <aiml:size/>
  */
 export default class Size extends BaseNode {
-  constructor (node, surly) {
+  constructor(node, surly) {
     super(node, surly);
   }
 
-  getText (callback) {
-    callback(null, this.surly.environment.countCategories());
+  getText() {
+    return this.surly.environment.countCategories();
   }
-};
+}

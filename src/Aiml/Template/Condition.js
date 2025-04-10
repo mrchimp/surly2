@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -24,18 +24,18 @@ import BaseNode from '../BaseNode.js';
  * </condition>
  */
 export default class Condition extends BaseNode {
-  constructor (node, surly) {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'condition';
-    var name = node.getAttribute('name');
-    var value = node.getAttribute('value');
+    this.type = "condition";
+    var name = node.getAttribute("name");
+    var value = node.getAttribute("value");
 
     if (name !== null && value !== null) {
-      this.conditional_type = 'blockCondition';
+      this.conditional_type = "blockCondition";
       this.name = name.value();
       this.value = value.value().toUpperCase();
     } else if (name !== null) {
-      this.conditional_type = 'singlePredicateCondition';
+      this.conditional_type = "singlePredicateCondition";
       this.filterNonLiChildren();
       this.name = name.value();
       // Set the name on the children, then we can treat it the same as a
@@ -44,7 +44,7 @@ export default class Condition extends BaseNode {
         this.children[i].name = this.name;
       }
     } else {
-      this.conditional_type = 'multiPredicateCondition';
+      this.conditional_type = "multiPredicateCondition";
       this.filterNonLiChildren();
     }
   }
@@ -52,36 +52,38 @@ export default class Condition extends BaseNode {
   /**
    * Removes child elements that aren't LI elements.
    */
-  filterNonLiChildren () {
+  filterNonLiChildren() {
     this.children = this.children.filter(function (item) {
-      return item.type === 'li';
+      return item.type === "li";
     });
   }
 
-  getText (callback) {
+  getText() {
     switch (this.conditional_type) {
-      case 'blockCondition':
+      case "blockCondition":
         var value = this.surly.environment.getVariable(this.name);
 
         if (value === this.value) {
-          this.evaluateChildren(callback);
+          return this.evaluateChildren();
         } else {
-          callback(null, '');
+          return "";
         }
 
         break;
-      case 'singlePredicateCondition':
-      case 'multiPredicateCondition':
+      case "singlePredicateCondition":
+      case "multiPredicateCondition":
         for (var i = 0; i < this.children.length; i++) {
-          var actual_value = this.surly.environment.getVariable(this.children[i].name);
+          var actual_value = this.surly.environment.getVariable(
+            this.children[i].name,
+          );
 
-          if (actual_value.toUpperCase() === this.children[i].value.toUpperCase()) {
-            this.children[i].getText(callback);
-            return;
+          if (
+            actual_value.toUpperCase() === this.children[i].value.toUpperCase()
+          ) {
+            return this.children[i].getText();
           }
         }
-        callback(null, '');
-        break;
+        return "";
     }
   }
-};
+}

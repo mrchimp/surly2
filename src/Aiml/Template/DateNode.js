@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -16,10 +16,10 @@ import BaseNode from '../BaseNode.js';
 export default class DateNode extends BaseNode {
   constructor(node, surly) {
     super(node, surly);
-    this.type = 'date';
+    this.type = "date";
   }
 
-  getText(callback) {
-    callback(false, new Date().toISOString()); // @todo - nice formatting
+  getText() {
+    new Date().toISOString(); // @todo - nice formatting
   }
-};
+}

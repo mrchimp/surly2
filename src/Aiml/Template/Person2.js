@@ -1,9 +1,8 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
-
-import libxmljs from 'libxmljs';
-import substitute from '../../Substitutions.js';
-import Star from './Star.js';
+import libxmljs from "libxmljs";
+import substitute from "../../Substitutions.js";
+import Star from "./Star.js";
 
 /**
  * From AIML Spec. Handles both the transformational PERSON2 element and
@@ -50,19 +49,17 @@ import Star from './Star.js';
  * implementation.
  */
 export default class Person2 extends BaseNode {
-  constructor (node, surly) {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'person2';
+    this.type = "person2";
 
     if (node.childNodes().length === 0) {
-      var star = new libxmljs.Element(node.doc(), 'star');
+      var star = new libxmljs.Element(node.doc(), "star");
       this.children.push(new Star(star, surly));
     }
   }
 
-  getText (callback) {
-    this.evaluateChildren(function (err, text) {
-      callback(err, substitute(text, 'person2'));
-    });
+  getText() {
+    return substitute(this.evaluateChildren(), "person2");
   }
-};
+}

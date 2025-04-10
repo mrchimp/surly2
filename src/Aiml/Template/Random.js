@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -15,9 +15,9 @@ import BaseNode from '../BaseNode.js';
  * </aiml:random>
  */
 export default class Random extends BaseNode {
-  getText (callback) {
+  getText() {
     var elem = this.children[Math.floor(Math.random() * this.children.length)];
 
-    elem.getText(callback);
+    return elem.getText();
   }
-};
+}

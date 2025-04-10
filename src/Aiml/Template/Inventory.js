@@ -1,31 +1,30 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * Not part of the AIML Spec.
  *
  * Handles a list of items that the bot can hold onto.
  */
-export default class Inventory extends BaseNode{
-  constructor (node, surly) {
+export default class Inventory extends BaseNode {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'inventory';
-    this.action = node.getAttribute('action')?.value();
+    this.type = "inventory";
+    this.action = node.getAttribute("action")?.value();
   }
 
-  getText (callback) {
+  getText() {
     switch (this.action) {
-      case 'list':
-        callback(null, 'I am carrying ' + this.surly.environment.inventory.join(', ') + '.');
-        break;
-      case 'swap':
-        super.evaluateChildren(function (err, text) {
-          var dropped = this.surly.environment.inventoryPush(text);
-          this.surly.environment.setVariable('last_dropped', dropped);
-          callback(null, '');
-        }.bind(this));
-        break;
+      case "list":
+        return (
+          "I am carrying " + this.surly.environment.inventory.join(", ") + "."
+        );
+      case "swap":
+        let text = super.evaluateChildren();
+        var dropped = this.surly.environment.inventoryPush(text);
+        this.surly.environment.setVariable("last_dropped", dropped);
+        return "";
       default:
-        callback('Invalid inventory action: ' + this.action, '[ERROR!]');
+        return "Invalid inventory action: " + this.action, "[ERROR!]";
     }
   }
-};
+}

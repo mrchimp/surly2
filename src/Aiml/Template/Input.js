@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -27,21 +27,19 @@ import BaseNode from '../BaseNode.js';
  * <aiml:input index = (single-integer-index | comma-separated-integer-pair) />
  */
 export default class That extends BaseNode {
-  constructor (node, surly) {
+  constructor(node, surly) {
     var index;
 
     super(node, surly);
-    this.type = 'that';
+    this.type = "that";
 
-    if (node.getAttribute('index') === null) {
-      index = '1,1';
+    if (node.getAttribute("index") === null) {
+      index = "1,1";
     } else {
-      index = node
-        .getAttribute('index')
-        .value();
+      index = node.getAttribute("index").value();
     }
 
-    index = index.split(',');
+    index = index.split(",");
 
     if (index.length === 2) {
       this.sentence = parseInt(index[1], 10);
@@ -52,7 +50,7 @@ export default class That extends BaseNode {
     this.index = parseInt(index[0], 10);
   }
 
-  getText (callback) {
-    callback(null, this.surly.environment.getPreviousInput(this.index, this.sentence));
+  getText() {
+    return this.surly.environment.getPreviousInput(this.index, this.sentence);
   }
-};
+}

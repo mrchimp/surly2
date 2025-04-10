@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -30,18 +30,16 @@ import BaseNode from '../BaseNode.js';
  * </aiml:set>
  */
 export default class Set extends BaseNode {
-  constructor (node, surly) {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'set';
-    this.name = node.getAttribute('name')?.value();
+    this.type = "set";
+    this.name = node.getAttribute("name")?.value();
   }
 
-  getText (callback) {
-    super.evaluateChildren(function (err, text) {
-      this.surly.environment.setVariable(this.name, text);
-    }.bind(this));
+  getText() {
+    this.surly.environment.setVariable(this.name, super.evaluateChildren());
 
     // @todo implement return-name-when-set. See AIML spec section 7.4.1
-    callback(null, '');
+    return "";
   }
-};
+}

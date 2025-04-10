@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -23,26 +23,26 @@ import BaseNode from '../BaseNode.js';
  * <aiml:star index = single-integer-index />
  */
 export default class Star extends BaseNode {
-  constructor (node, surly) {
+  constructor(node, surly) {
     super(node, surly);
 
-    this.type = 'star';
+    this.type = "star";
 
-    if (node.getAttribute('index')) {
-      this.index = node.getAttribute('index').value() - 1;
+    if (node.getAttribute("index")) {
+      this.index = node.getAttribute("index").value() - 1;
     } else {
       this.index = 0;
     }
   }
 
-  getText (callback) {
+  getText() {
     var wildcards = this.surly.environment.wildcard_stack.getLast();
 
-    if (typeof wildcards[this.index] === 'undefined') {
-      this.log.log('ERROR: STAR with no matching * value.');
-      callback('Star with no matching * value.', 'ERROR!');
+    if (typeof wildcards[this.index] === "undefined") {
+      this.log.log("ERROR: STAR with no matching * value.");
+      return "Star with no matching * value.";
     } else {
-      callback(null, wildcards[this.index]);
+      return wildcards[this.index];
     }
   }
-};
+}

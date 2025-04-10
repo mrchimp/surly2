@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -22,9 +22,9 @@ import BaseNode from '../BaseNode.js';
  * See Unicode Case Mapping for implementation suggestions.
  */
 export default class Sentence extends BaseNode {
-  getText (callback) {
+  getText() {
     this.evaluateChildren(function (err, text) {
-      var sentences = text.toLowerCase().split('.');
+      var sentences = text.toLowerCase().split(".");
 
       for (var i = 0; i < sentences.length; i++) {
         sentences[i] = sentences[i].trim();
@@ -35,9 +35,9 @@ export default class Sentence extends BaseNode {
         sentences[i] = sentences[i][0].toUpperCase() + sentences[i].slice(1);
       }
 
-      text = sentences.join('. ');
+      text = sentences.join(". ");
 
-      callback(err, text);
+      return text;
     });
   }
-};
+}

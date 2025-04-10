@@ -81,7 +81,7 @@ export default class Aiml {
   /**
    * Give a sentence and get a response
    */
-  getResponse(sentence, callback) {
+  getResponse(sentence) {
     debug("getResponse", sentence);
     const category = this.findMatchingCategory(sentence);
 
@@ -131,7 +131,7 @@ export default class Aiml {
    * @param  {String} dir
    * @return {Undefined}
    */
-  loadDir(dir, callback) {
+  loadDir(dir) {
     var files = fs.readdirSync(dir);
 
     debug("Loading dir" + dir);
@@ -144,7 +144,7 @@ export default class Aiml {
       if (fs.statSync(name).isDirectory()) {
         debug("Ignoring directory: " + name);
       } else if (name.substr(-5).toLowerCase() === ".aiml") {
-        this.loadFile(name, callback);
+        this.loadFile(name);
       }
     }
   }
@@ -154,7 +154,7 @@ export default class Aiml {
    * @param  {String} file
    * @return {Undefined}
    */
-  loadFile(file, callback) {
+  loadFile(file) {
     debug("Loading file: " + file);
     fs.readFile(
       file,

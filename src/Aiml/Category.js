@@ -99,7 +99,7 @@ export default class Category {
    * Check the category against a given sentence. Also, if a THAT tag is present
    * in the category, check that against the previous response
    */
-  match(sentence, callback) {
+  match(sentence) {
     debug("Comparing pattern: " + this.pattern + " with " + sentence);
     if (this.pattern.compare(sentence)) {
       debug("Matched pattern: " + sentence + " -- " + this.pattern);

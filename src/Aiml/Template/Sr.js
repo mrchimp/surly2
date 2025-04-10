@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -13,14 +13,14 @@ import BaseNode from '../BaseNode.js';
  * <aiml:sr/>
  */
 export default class Sr extends BaseNode {
-  constructor (node, surly) {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'sr';
+    this.type = "sr";
     this.surly = surly;
   }
 
-  getText (callback) {
-    var star = this.surly.environment.wildcard_stack.getLast();
-    this.surly.talk(star[0], callback);
+  getText() {
+    const star = this.surly.environment.wildcard_stack.getLast();
+    return this.surly.talk(star[0]);
   }
-};
+}

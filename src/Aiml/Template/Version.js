@@ -1,4 +1,4 @@
-import pkg from '../../../package.json' with { type: "json" };
+import pkg from "../../../package.json" with { type: "json" };
 
 /**
  * From AIML Spec
@@ -13,15 +13,15 @@ import pkg from '../../../package.json' with { type: "json" };
  * <aiml:version/>
  */
 export default class Version {
-  constructor () {
-    this.type = 'version';
+  constructor() {
+    this.type = "version";
   }
 
-  getType () {
+  getType() {
     return this.type;
   }
 
-  getText (callback) {
-    callback(null, pkg.version);
+  getText() {
+    return pkg.version;
   }
-};
+}

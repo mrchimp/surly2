@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -19,14 +19,13 @@ import BaseNode from '../BaseNode.js';
  * </aiml:srai>
  */
 export default class Srai extends BaseNode {
-
   /**
    * Constructor method
    * @param  {Node} node Xmllibjs node object
    */
-  constructor (node, surly) {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'srai';
+    this.type = "srai";
     this.content = node.text().toString();
   }
 
@@ -34,8 +33,8 @@ export default class Srai extends BaseNode {
    * Return content as text
    * @return {String}
    */
-  getText (callback) {
+  getText() {
     // @todo - make this work!
-    this.surly.talk(this.content, callback);
+    return this.surly.talk(this.content);
   }
-};
+}

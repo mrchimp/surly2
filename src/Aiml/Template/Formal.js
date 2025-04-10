@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -21,14 +21,11 @@ import BaseNode from '../BaseNode.js';
  * See Unicode Case Mapping for implementation suggestions.
  */
 export default class Formal extends BaseNode {
-  getText (callback) {
-    this.evaluateChildren(function (err, text) {
-      text = text
-        .toLowerCase()
-        .replace(/(?:^|\s)\S/g, function(a) {
-          return a.toUpperCase();
-        });
-      callback(err, text);
-    });
+  getText() {
+    return this.evaluateChildren()
+      .toLowerCase()
+      .replace(/(?:^|\s)\S/g, function (a) {
+        return a.toUpperCase();
+      });
   }
-};
+}

@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -16,15 +16,14 @@ import BaseNode from '../BaseNode.js';
  *    <!-- Contents: aiml-template-elements -->
  * </aiml:think>
  */
-export default class Think extends BaseNode{
-  constructor (node, surly) {
+export default class Think extends BaseNode {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'think';
+    this.type = "think";
   }
 
-  getText (callback) {
-    super.evaluateChildren(function (err, text) {
-      callback(null, '');
-    }.bind(this));
+  getText() {
+    super.evaluateChildren();
+    return "";
   }
-};
+}

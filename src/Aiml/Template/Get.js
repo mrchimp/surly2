@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -25,26 +25,26 @@ import BaseNode from '../BaseNode.js';
  * <aiml:get name = aiml-predicate-name />
  */
 export default class Get extends BaseNode {
-  constructor (node, surly) {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'get';
-    this.name = node.getAttribute('name')?.value() || "GET"; // @TODO do something else
-    this.default = node.getAttribute('default');
+    this.type = "get";
+    this.name = node.getAttribute("name")?.value() || "GET"; // @TODO do something else
+    this.default = node.getAttribute("default");
 
     if (!this.name) {
       throw "Invalid AIML: Get tag with no name attribute.";
     }
   }
 
-  getText(callback) {
+  getText() {
     var value = this.surly.environment.getVariable(this.name);
 
     if (value) {
-      callback(null, value);
+      return value;
     } else if (this.default) {
-      callback(null, this.default);
+      return this.default;
     } else {
-      callback(null, '[UNKNOWN]');
+      return "[UNKNOWN]";
     }
   }
-};
+}
