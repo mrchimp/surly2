@@ -36,7 +36,7 @@ export default class Set extends BaseNode {
     this.name = node.getAttribute("name")?.value();
   }
 
-  getText() {
+  toString() {
     this.surly.environment.setVariable(this.name, super.evaluateChildren());
 
     // @todo implement return-name-when-set. See AIML spec section 7.4.1

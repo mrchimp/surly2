@@ -71,7 +71,6 @@ export default class Category {
   /**
    * Check whether the category has a <that> and whether
    * if matches the previous response
-   * @param  {Object}  category Libxmljs category aiml node
    * @return {Boolean}          True if <that> exists and matches
    */
   checkThat() {
@@ -81,7 +80,10 @@ export default class Category {
       return true;
     }
 
-    const thatText = this.that.getText();
+    const thatText = this.that.toString();
+
+    debug("checkThat - ", thatText, this.that);
+
     var previous = this.surly.environment.getPreviousResponse(1).toUpperCase();
     debug('Comparing THAT - "' + thatText + '", "' + previous + '"');
     return thatText === previous;
@@ -98,6 +100,8 @@ export default class Category {
   /**
    * Check the category against a given sentence. Also, if a THAT tag is present
    * in the category, check that against the previous response
+   * @param {String}
+   * @return {Boolean}
    */
   match(sentence) {
     debug("Comparing pattern: " + this.pattern + " with " + sentence);

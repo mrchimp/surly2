@@ -50,7 +50,7 @@ export default class That extends BaseNode {
     this.index = parseInt(index[0], 10);
   }
 
-  getText() {
+  toString() {
     return this.surly.environment.getPreviousInput(this.index, this.sentence);
   }
 }

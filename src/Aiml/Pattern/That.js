@@ -1,4 +1,4 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -26,8 +26,9 @@ import BaseNode from '../BaseNode.js';
  * </aiml:that>
  */
 export default class PatternThat extends BaseNode {
-  constructor (node, surly, category) {
+  constructor(node, surly, category) {
     super(node, surly);
     this.category = category;
+    this.type = "patternThat";
   }
-};
+}

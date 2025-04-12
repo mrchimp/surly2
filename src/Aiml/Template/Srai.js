@@ -33,7 +33,7 @@ export default class Srai extends BaseNode {
    * Return content as text
    * @return {String}
    */
-  getText() {
+  toString() {
     // @todo - make this work!
     return this.surly.talk(this.content);
   }

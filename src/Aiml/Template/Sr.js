@@ -19,7 +19,7 @@ export default class Sr extends BaseNode {
     this.surly = surly;
   }
 
-  getText() {
+  toString() {
     const star = this.surly.environment.wildcard_stack.getLast();
     return this.surly.talk(star[0]);
   }

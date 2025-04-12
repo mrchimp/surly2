@@ -35,7 +35,7 @@ export default class Star extends BaseNode {
     }
   }
 
-  getText() {
+  toString() {
     var wildcards = this.surly.environment.wildcard_stack.getLast();
 
     if (typeof wildcards[this.index] === "undefined") {

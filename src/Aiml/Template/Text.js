@@ -30,7 +30,7 @@ export default class Text {
    * Return the node and any children as text
    * @return {String}
    */
-  getText() {
+  toString() {
     return this.content;
   }
 }

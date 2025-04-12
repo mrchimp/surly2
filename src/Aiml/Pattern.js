@@ -15,8 +15,14 @@
  *    <!-- Content: aiml-pattern-expression -->
  * </aiml:pattern>
  */
+
+import Debug from "debug";
+
+const debug = Debug("surly2");
+
 export default class Pattern {
   constructor(pattern, surly) {
+    debug("Pattern", pattern, pattern.text());
     this.surly = surly;
     this.wildcard_regex = " ([A-Z|0-9|\\s]*[A-Z|0-9|-]*[A-Z|0-9]*[!|.|?|\\s]*)";
     this.text_pattern = pattern.text();

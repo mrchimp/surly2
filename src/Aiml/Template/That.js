@@ -50,7 +50,7 @@ class That extends BaseNode {
     this.index = parseInt(index[0], 10);
   }
 
-  getText() {
+  toString() {
     return this.surly.environment.getPreviousResponse(
       this.index,
       this.sentence,

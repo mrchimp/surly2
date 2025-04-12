@@ -62,7 +62,7 @@ export default class Gender extends BaseNode {
     }
   }
 
-  getText() {
+  toString() {
     return substitute(this.evaluateChildren(), "gender");
   }
 }

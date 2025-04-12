@@ -21,7 +21,7 @@ export default class Version {
     return this.type;
   }
 
-  getText() {
+  toString() {
     return pkg.version;
   }
 }

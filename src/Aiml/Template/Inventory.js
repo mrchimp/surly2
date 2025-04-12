@@ -12,7 +12,7 @@ export default class Inventory extends BaseNode {
     this.action = node.getAttribute("action")?.value();
   }
 
-  getText() {
+  toString() {
     switch (this.action) {
       case "list":
         return (

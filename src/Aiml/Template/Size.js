@@ -17,7 +17,7 @@ export default class Size extends BaseNode {
     super(node, surly);
   }
 
-  getText() {
+  toString() {
     return this.surly.environment.countCategories();
   }
 }

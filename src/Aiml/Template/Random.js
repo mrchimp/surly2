@@ -15,9 +15,9 @@ import BaseNode from "../BaseNode.js";
  * </aiml:random>
  */
 export default class Random extends BaseNode {
-  getText() {
+  toString() {
     var elem = this.children[Math.floor(Math.random() * this.children.length)];
 
-    return elem.getText();
+    return elem.toString();
   }
 }

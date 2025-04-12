@@ -59,7 +59,7 @@ export default class Person2 extends BaseNode {
     }
   }
 
-  getText() {
+  toString() {
     return substitute(this.evaluateChildren(), "person2");
   }
 }

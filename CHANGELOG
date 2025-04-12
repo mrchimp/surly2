@@ -9,5 +9,6 @@ Breaking Changes
 
 Other Changes
 
+- [ ] Use String.substring() instead of String.substr()
 - [ ] Replace libxmljs
 - [ ] Fix deprecated dependencies

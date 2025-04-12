@@ -22,7 +22,7 @@ import BaseNode from "../BaseNode.js";
  * See Unicode Case Mapping for implementation suggestions.
  */
 export default class Sentence extends BaseNode {
-  getText() {
+  toString() {
     this.evaluateChildren(function (err, text) {
       var sentences = text.toLowerCase().split(".");
 

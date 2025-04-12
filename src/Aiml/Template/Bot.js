@@ -30,7 +30,7 @@ export default class Bot extends BaseNode {
     }
   }
 
-  getText() {
+  toString() {
     this.surly.environment.getBot(this.name);
   }
 }

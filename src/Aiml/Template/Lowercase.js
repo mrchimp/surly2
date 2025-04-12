@@ -20,7 +20,7 @@ import BaseNode from "../BaseNode.js";
  * See Unicode Case Mapping for implementation suggestions.
  */
 export default class Lowercase extends BaseNode {
-  getText() {
+  toString() {
     return this.evaluateChildren().toLowerCase();
   }
 }

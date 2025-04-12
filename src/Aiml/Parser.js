@@ -23,6 +23,9 @@ import Star from "./Template/Star.js";
 import TextNode from "./Template/Text.js";
 import Uppercase from "./Template/Uppercase.js";
 import Version from "./Template/Version.js";
+import Debug from "debug";
+
+const debug = Debug("surly2");
 
 export function parseTemplate(rawTemplate, surly) {
   const template = new Template(rawTemplate, surly);
@@ -41,6 +44,8 @@ function parseChild(child, surly) {
   let node;
 
   const node_type = child.name().toLowerCase();
+
+  debug("parseChild", node_type, typeof node_type);
 
   switch (node_type) {
     case "a": // Treat A tags as plain text. @todo

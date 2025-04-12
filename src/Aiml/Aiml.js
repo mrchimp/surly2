@@ -80,6 +80,8 @@ export default class Aiml {
 
   /**
    * Give a sentence and get a response
+   * @param {String}
+   * @return {String}
    */
   getResponse(sentence) {
     debug("getResponse", sentence);
@@ -87,9 +89,9 @@ export default class Aiml {
 
     if (category) {
       const template = category.getTemplate();
-      debug("Got template", template);
-      const templateText = template.getText();
-      debug("templateText", templateText);
+      debug("Got template: ", typeof template);
+      const templateText = template.toString();
+      debug("templateText: ", typeof templateText);
       return templateText;
     } else {
       return "Wat.";
@@ -102,7 +104,7 @@ export default class Aiml {
    * @param {String} sentence    Text input from user
    */
   findMatchingCategory(sentence) {
-    debug("findMatchingCategory", sentence);
+    debug("findMatchingCategory", typeof sentence);
     if (!this.hasData()) {
       throw "No data loaded.";
     }
@@ -119,7 +121,7 @@ export default class Aiml {
       item.match(sentence),
     );
 
-    debug("matchingCategory", matchingCategory);
+    debug("matchingCategory", typeof matchingCategory);
 
     return matchingCategory;
 
@@ -152,7 +154,7 @@ export default class Aiml {
   /**
    * Load an AIML file
    * @param  {String} file
-   * @return {Undefined}
+   * @return {void}
    */
   loadFile(file) {
     debug("Loading file: " + file);
@@ -177,8 +179,8 @@ export default class Aiml {
    *  - Pattern-fitting normalisations
    * @todo - check against spec
    *
-   * @param  {[type]} sentence [description]
-   * @return {[type]}          [description]
+   * @param  {String} sentence [description]
+   * @return {String}          [description]
    */
   normaliseSentence(sentence) {
     debug("normalising ", sentence);
@@ -192,7 +194,7 @@ export default class Aiml {
     while (
       ["!", ".", "?"].indexOf(sentence.charAt(sentence.length - 1)) !== -1
     ) {
-      sentence = sentence.substr(0, sentence.length - 1);
+      sentence = sentence.substring(0, sentence.length - 1);
     }
 
     if (sentence.charAt(sentence.length - 1) !== " ") {
