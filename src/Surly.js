@@ -5,11 +5,10 @@ import Aiml from "./Aiml/Aiml.js";
 import Environment from "./Environment.js";
 import Debug from "debug";
 
-const debug = Debug("surly2");
+const debug = Debug("DEBUG");
 
 export default class Surly {
   constructor(options) {
-    this.brain = [];
     this.input_stack = new Stack(10);
     this.callbacks = {};
     this.callbacks.respond = options.respond;
@@ -17,7 +16,9 @@ export default class Surly {
     this.aiml = new Aiml({
       surly: this,
     });
-    this.aiml.loadDir(options.brain);
+    this.aiml.loadDir(options.brain).then(() => {
+      debug("Finished loading");
+    });
     this.environment.aiml = this.aiml; // @todo this is getting circular. Hmmm.
   }
 
@@ -28,43 +29,40 @@ export default class Surly {
    * @return {String}
    */
   talk(sentence, callback, user_id) {
-    var i,
-      start_time = new Date(),
-      response;
+    this.start_time = new Date();
 
     debug("-----------------------------");
     debug("INPUT: " + sentence);
     this.input_stack.push(sentence);
 
     if (sentence.length === 0) {
-      callback("Input was empty string.", "Speak up!");
-      return;
+      return "Input was empty string.";
     }
 
-    if (sentence.substr(0, 1) === "/") {
+    if (sentence.substring(0, 1) === "/") {
       debug("Skipping command string."); // @todo - do stuff
-      this.respond("COMMANDS DO NOTHING YET.");
-      return;
+      return "COMMANDS DO NOTHING YET.";
     }
 
     if (this.environment.countCategories() === 0) {
-      callback("No AIML files loaded.", "My mind is blank.");
-      return;
+      return "No AIML files loaded.";
     }
 
     const result = this.aiml.getResponse(sentence);
-    this.handleResult(sentence, result);
+    debug("Surly. talk(). result: ", result);
+    return this.handleResult(sentence, result);
   }
 
   /**
    * Do any extra stuff that needs doing with the results
+   * @param {String} sentence
+   * @param {String} response
+   * @return {String}
    */
   handleResult(sentence, response) {
-    // process.exit();
-    // var end_time = new Date();
-    //
-    // this.log('OUTPUT: ' + response + ' (' + (end_time - start_time) + 'ms)');
-    // this.respond(response);
+    const end_time = new Date();
+
+    debug("OUTPUT: " + response + " (" + (end_time - this.start_time) + "ms)");
 
     // @todo this!
     // if (response) {
@@ -73,8 +71,10 @@ export default class Surly {
     //
     debug("handleResponse", sentence, response);
 
-    var normal_previous = this.aiml.normaliseSentence(response).trim();
+    const normal_previous = this.aiml.normaliseSentence(response).trim();
     this.environment.previous_responses.push(normal_previous);
     this.environment.previous_inputs.push(sentence);
+
+    return response;
   }
 }

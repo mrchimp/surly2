@@ -31,6 +31,6 @@ export default class Bot extends BaseNode {
   }
 
   toString() {
-    this.surly.environment.getBot(this.name);
+    return this.surly.environment.getBot(this.name);
   }
 }

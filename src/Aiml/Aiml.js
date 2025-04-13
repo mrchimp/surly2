@@ -1,20 +1,22 @@
 import fs from "fs";
-import async from "async";
 import libxmljs from "libxmljs";
 import Category from "./Category.js";
 import Debug from "debug";
 
-const debug = Debug("surly2");
+const debug = Debug("DEBUG");
+const verbose = Debug("VERBOSE");
 
 /**
  * Main AIML handler. Contains a list of category nodes, potentially loaded
  * from multiple files.
+ * @property {Surly} surly
+ * @property {Category[]} categories
  */
 export default class Aiml {
   constructor(options) {
     this.surly = options.surly;
-    this.wipe();
     this.categories = [];
+    this.wipe();
   }
 
   /**
@@ -31,43 +33,45 @@ export default class Aiml {
    * @param {String} aiml    A whole AIML file
    */
   async parseAiml(aiml) {
-    var xmlDoc = await libxmljs.parseXmlAsync(aiml);
-    var topics = xmlDoc.find("topic"),
-      categories,
-      topic_name,
-      topic_cats,
-      i,
-      j;
+    debug("Aiml. Parsing AIML...");
+    const xmlDoc = await libxmljs.parseXmlAsync(aiml);
+    debug("Aiml. got xmlDoc");
+    const topics = xmlDoc.find("topic");
+    debug("Aiml. got topics: ", topics.length);
+    let categories;
+
+    debug(`Aiml. Found ${topics.length} topic categories`);
 
     // Handle topic cats first - they should be matched first
-    for (i = 0; i < topics.length; i++) {
-      topic_name = topics[i].getAttribute("name")?.value();
-      topic_cats = topics[i].find("category");
+    topics.forEach((topic) => {
+      const topic_name = topic.getAttribute("name")?.value();
+      topic.find("category").forEach((cat) => {
+        debug("Aiml. Found topic category");
+        this.categories.push(new Category(cat, this.surly, topic_name));
+      });
+    });
 
-      for (j = 0; j < topic_cats.length; j++) {
-        this.categories.push(
-          new Category(topic_cats[j], this.surly, topic_name),
-        );
-      }
-    }
+    debug(
+      `Aiml. Successfully parsed ${this.categories.length} topic categories`,
+    );
 
     categories = xmlDoc.find("category");
-    debug("Parsing " + this.categories.length + " categories.");
+    debug(`Aiml. Parsing ${categories.length} categories.`);
 
-    for (i = 0; i < categories.length; i++) {
-      this.categories.push(new Category(categories[i], this.surly));
-    }
+    categories.forEach((cat) => {
+      this.categories.push(new Category(cat, this.surly));
+    });
 
-    this.showCategories();
+    this.debugPrintCategories();
   }
 
   /**
    * List out all loaded categories and their topics. For debugging.
    */
-  showCategories() {
-    for (var i = 0; i < this.categories.length; i++) {
-      debug(" - " + this.categories[i].pattern.text_pattern);
-    }
+  debugPrintCategories() {
+    this.categories.forEach((cat) => {
+      debug(" - " + cat.pattern.text_pattern);
+    });
   }
 
   /**
@@ -84,14 +88,18 @@ export default class Aiml {
    * @return {String}
    */
   getResponse(sentence) {
-    debug("getResponse", sentence);
+    debug("Aiml. getResponse", sentence);
     const category = this.findMatchingCategory(sentence);
 
     if (category) {
       const template = category.getTemplate();
-      debug("Got template: ", typeof template);
+      verbose("Aiml. Got Template: ", template, `(typeof: ${typeof template})`);
       const templateText = template.toString();
-      debug("templateText: ", typeof templateText);
+      debug(
+        "Aiml. templateText: ",
+        templateText,
+        `(typeof: ${typeof templateText})`,
+      );
       return templateText;
     } else {
       return "Wat.";
@@ -102,9 +110,9 @@ export default class Aiml {
    * Loop through loaded AIML and return the `template` from the first `category`
    * with a `pattern` that matches `sentence`.
    * @param {String} sentence    Text input from user
+   * @return Category
    */
   findMatchingCategory(sentence) {
-    debug("findMatchingCategory", typeof sentence);
     if (!this.hasData()) {
       throw "No data loaded.";
     }
@@ -115,13 +123,17 @@ export default class Aiml {
 
     sentence = this.normaliseSentence(sentence);
 
-    debug("normalised sentence: " + sentence);
+    debug("Aiml. findMatchingCategory for sentence: ", sentence);
 
-    const matchingCategory = this.categories.find((item) =>
-      item.match(sentence),
-    );
+    const matchingCategory = this.categories.find((category) => {
+      debug(
+        `Aiml. Testing category match... "${category.toString()}" against "${sentence}"`,
+      );
+      verbose("Aiml. category: ", category);
+      return category.match(sentence);
+    });
 
-    debug("matchingCategory", typeof matchingCategory);
+    debug("Aiml. matchingCategory", typeof matchingCategory);
 
     return matchingCategory;
 
@@ -131,21 +143,24 @@ export default class Aiml {
   /**
    * Find files in a dir and run loadAimlFile on them
    * @param  {String} dir
-   * @return {Undefined}
+   * @return {Void}
    */
-  loadDir(dir) {
-    var files = fs.readdirSync(dir);
+  async loadDir(dir) {
+    const files = fs.readdirSync(dir);
 
-    debug("Loading dir" + dir);
+    debug("Aiml. Loading dir: " + dir);
 
-    for (var i in files) {
+    for (let i in files) {
       if (!files.hasOwnProperty(i)) continue;
 
-      var name = dir + "/" + files[i];
+      const name = dir + "/" + files[i];
 
       if (fs.statSync(name).isDirectory()) {
-        debug("Ignoring directory: " + name);
-      } else if (name.substr(-5).toLowerCase() === ".aiml") {
+        // @todo make recursive
+        debug("Aiml. Ignoring directory: " + name);
+      } else if (name.slice(-5).toLowerCase() !== ".aiml") {
+        debug("Aiml. Ignoring file: ", name);
+      } else {
         this.loadFile(name);
       }
     }
@@ -154,21 +169,23 @@ export default class Aiml {
   /**
    * Load an AIML file
    * @param  {String} file
-   * @return {void}
+   * @return {Void}
    */
-  loadFile(file) {
-    debug("Loading file: " + file);
-    fs.readFile(
-      file,
-      "utf8",
-      function (err, xml) {
-        if (err) {
-          throw "Failed to load AIML file. " + err;
-        }
+  async loadFile(file) {
+    debug("Aiml. Loading file: " + file);
 
-        this.parseAiml(xml);
-      }.bind(this),
-    );
+    let xml;
+
+    try {
+      xml = fs.readFileSync(file, "utf8");
+    } catch (err) {
+      if (err) {
+        debug("Aiml. Failed loading AIML file. ", err);
+        return;
+      }
+    }
+
+    await this.parseAiml(xml);
   }
 
   /**
@@ -183,7 +200,9 @@ export default class Aiml {
    * @return {String}          [description]
    */
   normaliseSentence(sentence) {
-    debug("normalising ", sentence);
+    if (!sentence) {
+      return sentence; // @todo throw an error or something
+    }
 
     // add spaces to prevent false positives
     if (sentence.charAt(0) !== " ") {

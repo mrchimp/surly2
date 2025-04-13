@@ -37,7 +37,7 @@ export default class Get extends BaseNode {
   }
 
   toString() {
-    var value = this.surly.environment.getVariable(this.name);
+    const value = this.surly.environment.getVariable(this.name);
 
     if (value) {
       return value;

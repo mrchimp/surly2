@@ -36,7 +36,7 @@ export default class Star extends BaseNode {
   }
 
   toString() {
-    var wildcards = this.surly.environment.wildcard_stack.getLast();
+    const wildcards = this.surly.environment.wildcard_stack.getLast();
 
     if (typeof wildcards[this.index] === "undefined") {
       this.log.log("ERROR: STAR with no matching * value.");

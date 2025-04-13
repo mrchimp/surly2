@@ -28,7 +28,7 @@ import BaseNode from "../BaseNode.js";
  */
 class That extends BaseNode {
   constructor(node, surly) {
-    var index;
+    let index;
 
     super(node, surly);
     this.type = "that";
@@ -51,10 +51,12 @@ class That extends BaseNode {
   }
 
   toString() {
-    return this.surly.environment.getPreviousResponse(
+    const result = this.surly.environment.getPreviousResponse(
       this.index,
       this.sentence,
     );
+    debug("That toString result", result, typeof result);
+    return result;
   }
 }
 

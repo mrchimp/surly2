@@ -25,7 +25,7 @@ import Uppercase from "./Template/Uppercase.js";
 import Version from "./Template/Version.js";
 import Debug from "debug";
 
-const debug = Debug("surly2");
+const debug = Debug("DEBUG");
 
 export function parseTemplate(rawTemplate, surly) {
   const template = new Template(rawTemplate, surly);
@@ -45,62 +45,88 @@ function parseChild(child, surly) {
 
   const node_type = child.name().toLowerCase();
 
-  debug("parseChild", node_type, typeof node_type);
+  debug("parseChild", `"${node_type}"`, typeof node_type);
 
   switch (node_type) {
     case "a": // Treat A tags as plain text. @todo
     case "text":
       node = new TextNode(child, surly);
+      break;
     case "br":
       node = new TextNode("\n", surly);
+      break;
     case "bot":
       node = new Bot(child, surly);
+      break;
     case "condition":
       node = new Condition(child, surly);
+      break;
     case "date":
       node = new DateNode(child, surly);
+      break;
     case "gender":
       node = new Gender(child, surly);
+      break;
     case "get":
       node = new Get(child, surly);
+      break;
     case "input":
       node = new Input(child, surly);
+      break;
     case "inventory":
       node = new Inventory(child, surly);
+      break;
     case "li":
       node = new Li(child, surly);
+      break;
     case "lowercase":
       node = new Lowercase(child, surly);
+      break;
     case "person":
       node = new Person(child, surly);
+      break;
     case "person2":
       node = new Person2(child, surly);
+      break;
     case "random":
       node = new Random(child, surly);
+      break;
     case "set":
       node = new SetNode(child, surly);
+      break;
     case "size":
       node = new Size(child, surly);
+      break;
     case "sr":
       node = new Sr(child, surly);
+      break;
     case "srai":
       node = new Srai(child, surly);
+      break;
     case "star":
       node = new Star(child, surly);
+      break;
     case "uppercase":
       node = new Uppercase(child, surly);
+      break;
     case "formal":
       node = new Formal(child, surly);
+      break;
     case "sentence":
       node = new Sentence(child, surly);
+      break;
     case "that":
       node = new That(child, surly);
+      break;
     case "think":
       node = new Think(child, surly);
+      break;
     case "version":
       node = new Version(child, surly);
+      break;
     default:
       node = new TextNode("[NOT IMPLEMENTED: " + node_type + "]", surly);
+      break;
   }
 
   if (node.raw_child_nodes && node.raw_child_nodes.length) {

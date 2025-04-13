@@ -1,4 +1,5 @@
 import pkg from "../../../package.json" with { type: "json" };
+import BaseNode from "../BaseNode.js";
 
 /**
  * From AIML Spec
@@ -12,8 +13,9 @@ import pkg from "../../../package.json" with { type: "json" };
  * <!-- Category: aiml-template-elements -->
  * <aiml:version/>
  */
-export default class Version {
-  constructor() {
+export default class Version extends BaseNode {
+  constructor(node, surly) {
+    super(node, surly);
     this.type = "version";
   }
 

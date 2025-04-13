@@ -1,4 +1,4 @@
-import substitutions from '../data/substitutions.json' with { type: "json" };
+import substitutions from "../data/substitutions.json" with { type: "json" };
 
 /**
  * Swap words in a given sentence from a given set of pairs.
@@ -7,17 +7,24 @@ import substitutions from '../data/substitutions.json' with { type: "json" };
  * @return {String}          Updated sentence
  */
 export default function substitute(sentence, set) {
-  var x, y, chunks = sentence.split(' ');
+  let x;
+  let y;
+  const chunks = sentence.split(" ");
 
-  if (typeof substitutions[set] === 'undefined') {
-    throw 'Invalid set.';
+  if (typeof substitutions[set] === "undefined") {
+    throw "Invalid set.";
   }
 
-  for (x = 0; x < chunks.length; x++) {
-    if (typeof substitutions[set][chunks[x].toLowerCase()] !== 'undefined') {
-      chunks[x] = substitutions[set][chunks[x].toLowerCase()];
-    }
-  }
+  const lowerCaseChunks = chunks
+    .map((chunk) => {
+      const name = c.toLowerCase();
 
-  return chunks.join(' ');
-};
+      if (typeof substitutions[set][name] !== "undefined") {
+        return substitutions[set][name];
+      }
+
+      return;
+    })
+    .filter((x) => !!x)
+    .join(" ");
+}

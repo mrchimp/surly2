@@ -21,6 +21,11 @@ import BaseNode from "../BaseNode.js";
  * See Unicode Case Mapping for implementation suggestions.
  */
 export default class Formal extends BaseNode {
+  constructor(node, surly) {
+    super(node, surly);
+    this.type = "formal";
+  }
+
   toString() {
     return this.evaluateChildren()
       .toLowerCase()

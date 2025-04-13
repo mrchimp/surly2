@@ -1,17 +1,17 @@
-import BaseNode from '../BaseNode.js';
+import BaseNode from "../BaseNode.js";
 
 /**
  * A generic container element use in conditionals and the Random element.
  */
 export default class Li extends BaseNode {
-  constructor (node, surly) {
+  constructor(node, surly) {
     super(node, surly);
-    this.type = 'li';
+    this.type = "li";
 
-    var name = node.getAttribute('name');
+    const name = node.getAttribute("name");
     if (name !== null) this.name = name.value();
 
-    var value = node.getAttribute('value');
+    const value = node.getAttribute("value");
     if (value !== null) this.value = value.value();
   }
-};
+}

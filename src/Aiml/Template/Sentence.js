@@ -22,11 +22,16 @@ import BaseNode from "../BaseNode.js";
  * See Unicode Case Mapping for implementation suggestions.
  */
 export default class Sentence extends BaseNode {
+  constructor(node, surly) {
+    super(node, surly);
+    this.type = "sentence";
+  }
+
   toString() {
     this.evaluateChildren(function (err, text) {
-      var sentences = text.toLowerCase().split(".");
+      const sentences = text.toLowerCase().split(".");
 
-      for (var i = 0; i < sentences.length; i++) {
+      for (let i = 0; i < sentences.length; i++) {
         sentences[i] = sentences[i].trim();
 
         if (sentences[i].length === 0) {

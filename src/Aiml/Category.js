@@ -4,7 +4,7 @@ import PatternThat from "./Pattern/That.js";
 import Debug from "debug";
 import { parseTemplate } from "./Parser.js";
 
-const debug = Debug("surly2");
+const debug = Debug("DEBUG");
 
 /**
  * From AIML Spec
@@ -33,9 +33,10 @@ export default class Category {
   constructor(category, surly, topic) {
     this.topic = topic || "*";
     this.surly = surly;
-    var patterns = category.find("pattern");
-    var templates = category.find("template");
-    var thats = category.find("that");
+
+    const patterns = category.find("pattern");
+    const templates = category.find("template");
+    const thats = category.find("that");
 
     if (patterns.length !== 1) {
       throw "Category should have exactly one PATTERN.";
@@ -52,11 +53,13 @@ export default class Category {
     this.template.category = this;
     this.that = "";
 
+    if (thats.length > 1) {
+      throw "Category must not contain more than one THAT.";
+    }
+
     if (thats.length === 1) {
       this.that = new PatternThat(thats[0], surly, this);
-      // this.that.category = this;
-    } else if (thats.length > 1) {
-      throw "Category must not contain more than one THAT.";
+      this.that.category = this;
     }
   }
 
@@ -68,6 +71,10 @@ export default class Category {
     return this.pattern;
   }
 
+  toString() {
+    return this.getPattern().toString();
+  }
+
   /**
    * Check whether the category has a <that> and whether
    * if matches the previous response
@@ -76,16 +83,16 @@ export default class Category {
   checkThat() {
     // If no THAT then it matches by default
     if (!this.that) {
-      debug("No THAT.");
+      debug("Category. No THAT.");
       return true;
     }
 
     const thatText = this.that.toString();
 
-    debug("checkThat - ", thatText, this.that);
-
-    var previous = this.surly.environment.getPreviousResponse(1).toUpperCase();
-    debug('Comparing THAT - "' + thatText + '", "' + previous + '"');
+    const previous = this.surly.environment
+      .getPreviousResponse(1)
+      .toUpperCase();
+    debug('Category. Comparing THAT - "' + thatText + '", "' + previous + '"');
     return thatText === previous;
   }
 
@@ -104,9 +111,8 @@ export default class Category {
    * @return {Boolean}
    */
   match(sentence) {
-    debug("Comparing pattern: " + this.pattern + " with " + sentence);
     if (this.pattern.compare(sentence)) {
-      debug("Matched pattern: " + sentence + " -- " + this.pattern);
+      debug("Category. Matched pattern: " + sentence + " -- " + this.pattern);
 
       if (
         this.topic !== "*" &&
@@ -117,10 +123,10 @@ export default class Category {
 
       const thatMatch = this.checkThat();
 
-      debug("That match?", thatMatch);
+      debug("Category. That match?", thatMatch);
       return thatMatch;
     } else {
-      debug("No match");
+      debug("Category. No match");
       return false;
     }
   }

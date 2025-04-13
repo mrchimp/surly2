@@ -20,6 +20,6 @@ export default class DateNode extends BaseNode {
   }
 
   toString() {
-    new Date().toISOString(); // @todo - nice formatting
+    return new Date().toISOString(); // @todo - nice formatting
   }
 }

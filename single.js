@@ -6,21 +6,21 @@ import Debug from "debug";
 
 const __dirname = import.meta.dirname;
 
-var conf = Rc("surly2", {
+const conf = Rc("surly2", {
   brain: "",
   b: "",
   help: false,
   version: false,
 });
-const debug = Debug("surly2");
+const debug = Debug("DEBUG");
 
-var options = {
+const options = {
   brain: conf.b || conf.brain || __dirname + "/data/aiml",
   help: conf.help || conf.h,
   version: conf.version,
 };
 
-var prompt = "You: ";
+debug("Options", options);
 
 if (options.help) {
   console.log(
@@ -38,23 +38,23 @@ if (options.version) {
   process.exit();
 }
 
-var bot = new Surly({
+const [input] = conf._;
+
+if (!input) {
+  throw new Error("No input given");
+}
+
+const bot = new Surly({
   brain: options.brain,
 });
 
-console.log("Surly: Hello! Type quit to quit or /help for unhelpful help.");
-process.stdout.write(prompt);
-
-process.stdin.addListener("data", function (d) {
-  var sentence = d.toString().substring(0, d.length - 1);
-
-  if (sentence === "quit" || sentence === "exit") {
-    console.log("Yeah, fuck off.");
-    process.exit(0);
-  }
-
-  bot.talk(sentence, function (err, response) {
-    console.log("Surly: " + response);
-    process.stdout.write(prompt);
+// @todo get a signal that data is loaded rather than using a timeout
+setTimeout(() => {
+  process.stdout.write(
+    "Surly: Hello! Type quit to quit or /help for unhelpful help.",
+  );
+  process.stdout.write(`You: ${input}`);
+  bot.talk(input, function (err, response) {
+    process.stdout.write("Surly: " + response);
   });
-});
+}, 1000);

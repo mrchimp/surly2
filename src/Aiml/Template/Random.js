@@ -15,8 +15,14 @@ import BaseNode from "../BaseNode.js";
  * </aiml:random>
  */
 export default class Random extends BaseNode {
+  constructor(node, surly) {
+    super(node, surly);
+    this.type = "random";
+  }
+
   toString() {
-    var elem = this.children[Math.floor(Math.random() * this.children.length)];
+    const elem =
+      this.children[Math.floor(Math.random() * this.children.length)];
 
     return elem.toString();
   }

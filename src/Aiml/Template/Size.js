@@ -15,6 +15,7 @@ import BaseNode from "../BaseNode.js";
 export default class Size extends BaseNode {
   constructor(node, surly) {
     super(node, surly);
+    this.type = "size";
   }
 
   toString() {

@@ -20,7 +20,7 @@ export default class Inventory extends BaseNode {
         );
       case "swap":
         let text = super.evaluateChildren();
-        var dropped = this.surly.environment.inventoryPush(text);
+        const dropped = this.surly.environment.inventoryPush(text);
         this.surly.environment.setVariable("last_dropped", dropped);
         return "";
       default:

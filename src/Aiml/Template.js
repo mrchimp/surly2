@@ -1,4 +1,4 @@
-import BaseNode from './BaseNode.js';
+import BaseNode from "./BaseNode.js";
 
 /**
  * From AIML Spec
@@ -17,4 +17,9 @@ import BaseNode from './BaseNode.js';
  * zero or more AIML template elements mixed with character data. The elements
  * described below are grouped for convenience.
  */
-export default class Template extends BaseNode {};
+export default class Template extends BaseNode {
+  constructor(node, surly) {
+    super(node, surly);
+    this.type = "template";
+  }
+}

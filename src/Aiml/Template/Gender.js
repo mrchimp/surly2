@@ -57,7 +57,7 @@ export default class Gender extends BaseNode {
     this.type = "gender";
 
     if (node.childNodes().length === 0) {
-      var star = new libxmljs.Element(node.doc(), "star");
+      const star = new libxmljs.Element(node.doc(), "star");
       this.children.push(new Star(star, surly));
     }
   }

@@ -27,8 +27,8 @@ export default class Condition extends BaseNode {
   constructor(node, surly) {
     super(node, surly);
     this.type = "condition";
-    var name = node.getAttribute("name");
-    var value = node.getAttribute("value");
+    const name = node.getAttribute("name");
+    const value = node.getAttribute("value");
 
     if (name !== null && value !== null) {
       this.conditional_type = "blockCondition";
@@ -40,7 +40,7 @@ export default class Condition extends BaseNode {
       this.name = name.value();
       // Set the name on the children, then we can treat it the same as a
       // multiPredicateCondition when we use it later
-      for (var i = 0; i < this.children.length; i++) {
+      for (let i = 0; i < this.children.length; i++) {
         this.children[i].name = this.name;
       }
     } else {
@@ -61,19 +61,17 @@ export default class Condition extends BaseNode {
   toString() {
     switch (this.conditional_type) {
       case "blockCondition":
-        var value = this.surly.environment.getVariable(this.name);
+        const value = this.surly.environment.getVariable(this.name);
 
         if (value === this.value) {
           return this.evaluateChildren();
         } else {
           return "";
         }
-
-        break;
       case "singlePredicateCondition":
       case "multiPredicateCondition":
-        for (var i = 0; i < this.children.length; i++) {
-          var actual_value = this.surly.environment.getVariable(
+        for (let i = 0; i < this.children.length; i++) {
+          const actual_value = this.surly.environment.getVariable(
             this.children[i].name,
           );
 

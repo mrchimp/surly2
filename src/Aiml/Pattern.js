@@ -18,11 +18,12 @@
 
 import Debug from "debug";
 
-const debug = Debug("surly2");
+const debug = Debug("DEBUG");
+const verbose = Debug("VERBOSE");
 
 export default class Pattern {
   constructor(pattern, surly) {
-    debug("Pattern", pattern, pattern.text());
+    debug("Pattern. Constructing.", pattern.text());
     this.surly = surly;
     this.wildcard_regex = " ([A-Z|0-9|\\s]*[A-Z|0-9|-]*[A-Z|0-9]*[!|.|?|\\s]*)";
     this.text_pattern = pattern.text();
@@ -51,7 +52,7 @@ export default class Pattern {
     sentence = sentence.toUpperCase();
 
     // var regex_pattern = this.aimlPatternToRegex(pattern);
-    var matches = sentence.match(this.regex);
+    const matches = sentence.match(this.regex);
 
     if (
       matches &&
@@ -73,15 +74,15 @@ export default class Pattern {
    * @return String      The altered string
    */
   patternToRegex(pattern) {
-    var lastChar,
-      firstChar = pattern.charAt(0);
+    let lastChar;
+    const firstChar = pattern.charAt(0);
 
     // add spaces to prevent e.g. foo matching food
     if (firstChar != "*") {
       pattern = " " + pattern;
     }
 
-    var lastCharIsStar = pattern.charAt(pattern.length - 1) === "*";
+    const lastCharIsStar = pattern.charAt(pattern.length - 1) === "*";
 
     // remove spaces before *s
     pattern = pattern.replace(" *", "*");
@@ -102,7 +103,8 @@ export default class Pattern {
    * @return {Boolean}          True if sentence and pattern match
    */
   compare(sentence) {
-    var matches = sentence.match(this.regex);
+    verbose("Pattern. compare() ", sentence);
+    const matches = sentence.match(this.regex);
 
     if (
       matches &&
@@ -119,21 +121,21 @@ export default class Pattern {
   }
 
   getWildCardValues(sentence) {
-    var replace_array = this.text_pattern.split("*");
+    const replace_array = this.text_pattern.split("*");
 
     if (replace_array.length < 2) {
       return this.surly.environment.wildcard_stack.getLast();
     }
 
-    for (var i = 0; i < replace_array.length; i++) {
+    for (let i = 0; i < replace_array.length; i++) {
       sentence = sentence.replace(replace_array[i], "|");
     }
 
     // split by pipe and we're left with values and empty strings
     sentence = sentence.trim().split("|");
 
-    var output = [];
-    var chunk = "";
+    const output = [];
+    let chunk = "";
 
     for (i = 0; i < sentence.length; i++) {
       chunk = sentence[i].trim();

@@ -26,12 +26,12 @@ import BaseNode from "../BaseNode.js";
  * <!-- Category: aiml-template-elements -->
  * <aiml:input index = (single-integer-index | comma-separated-integer-pair) />
  */
-export default class That extends BaseNode {
+export default class Input extends BaseNode {
   constructor(node, surly) {
-    var index;
+    let index;
 
     super(node, surly);
-    this.type = "that";
+    this.type = "input";
 
     if (node.getAttribute("index") === null) {
       index = "1,1";
