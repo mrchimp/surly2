@@ -24,28 +24,34 @@ import TextNode from "./Template/Text.js";
 import Uppercase from "./Template/Uppercase.js";
 import Version from "./Template/Version.js";
 import Debug from "debug";
+import PatternThat from "./Pattern/That.js";
 
 const debug = Debug("DEBUG");
 
-export function parseTemplate(rawTemplate, surly) {
-  const template = new Template(rawTemplate, surly);
+export function parseChildren(node) {
+  let children = [];
 
-  if (template.raw_child_nodes && template.raw_child_nodes.length) {
-    template.children = template.raw_child_nodes.map((child) =>
-      parseChild(child, surly),
-    );
-    template.raw_child_nodes = [];
+  if (node.raw_child_nodes && node.raw_child_nodes.length) {
+    children = node.raw_child_nodes.map((child) => {
+      return parseChild(child, node.surly);
+    });
   }
 
-  return template;
+  return children;
 }
 
 function parseChild(child, surly) {
   let node;
+  let children = [];
 
   const node_type = child.name().toLowerCase();
 
-  debug("parseChild", `"${node_type}"`, typeof node_type);
+  debug(
+    "parseChild",
+    `"${node_type}"`,
+    typeof node_type,
+    typeof child === "string" ? child : child.toString(),
+  );
 
   switch (node_type) {
     case "a": // Treat A tags as plain text. @todo
@@ -129,10 +135,8 @@ function parseChild(child, surly) {
       break;
   }
 
-  if (node.raw_child_nodes && node.raw_child_nodes.length) {
-    node.children = node.raw_child_nodes.map((c) => parseChild(c, surly));
-    node.raw_child_nodes = [];
-  }
+  node.children = parseChildren(node);
+  node.raw_child_nodes = [];
 
   return node;
 }

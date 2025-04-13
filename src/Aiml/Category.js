@@ -2,7 +2,7 @@ import Template from "./Template.js";
 import Pattern from "./Pattern.js";
 import PatternThat from "./Pattern/That.js";
 import Debug from "debug";
-import { parseTemplate } from "./Parser.js";
+import { parseChildren } from "./Parser.js";
 
 const debug = Debug("DEBUG");
 
@@ -33,6 +33,7 @@ export default class Category {
   constructor(category, surly, topic) {
     this.topic = topic || "*";
     this.surly = surly;
+    this.that = null;
 
     const patterns = category.find("pattern");
     const templates = category.find("template");
@@ -47,11 +48,11 @@ export default class Category {
     }
 
     this.pattern = new Pattern(patterns[0], surly);
-    this.pattern.category = this;
-    this.template = parseTemplate(templates[0], surly);
-    // this.template = new Template(templates[0], surly);
+
+    this.template = new Template(templates[0], surly);
+    this.template.children = parseChildren(this.template, false);
     this.template.category = this;
-    this.that = "";
+    this.template.raw_child_nodes = [];
 
     if (thats.length > 1) {
       throw "Category must not contain more than one THAT.";
@@ -59,7 +60,9 @@ export default class Category {
 
     if (thats.length === 1) {
       this.that = new PatternThat(thats[0], surly, this);
+      this.that.children = parseChildren(this.that, true);
       this.that.category = this;
+      this.that.raw_child_nodes = [];
     }
   }
 

@@ -114,7 +114,7 @@ export default class Environment {
       return "";
     }
 
-    return response[sentence].trim() + ".";
+    return response[sentence].trim();
   }
 
   /**
