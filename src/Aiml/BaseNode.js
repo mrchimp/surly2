@@ -37,7 +37,7 @@ export default class BaseNode {
 
     if (this.raw_child_nodes.length === 0) {
       debug("BaseNode. No child nodes");
-      this.content = this.node.childNodes().toString();
+      this.content = node.childNodes().toString();
     } else {
     }
   }

@@ -137,7 +137,7 @@ export default class Pattern {
     const output = [];
     let chunk = "";
 
-    for (i = 0; i < sentence.length; i++) {
+    for (let i = 0; i < sentence.length; i++) {
       chunk = sentence[i].trim();
 
       if (chunk === "") continue;

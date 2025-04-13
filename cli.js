@@ -55,6 +55,6 @@ process.stdin.addListener("data", function (d) {
   }
 
   const response = bot.talk(sentence);
-  process.stdout.write("Surly: " + response);
+  process.stdout.write(`Surly: ${response} \n`);
   process.stdout.write(prompt);
 });

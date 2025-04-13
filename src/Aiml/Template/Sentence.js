@@ -1,5 +1,7 @@
 import BaseNode from "../BaseNode.js";
+import Debug from "debug";
 
+const debug = Debug("DEBUG");
 /**
  * From AIML Spec
  * http://www.alicebot.org/TR/2001/WD-aiml/#section-sentence
@@ -29,6 +31,7 @@ export default class Sentence extends BaseNode {
 
   toString() {
     this.evaluateChildren(function (err, text) {
+      debug("Sentence. text: ", text);
       const sentences = text.toLowerCase().split(".");
 
       for (let i = 0; i < sentences.length; i++) {

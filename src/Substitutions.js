@@ -17,7 +17,7 @@ export default function substitute(sentence, set) {
 
   const lowerCaseChunks = chunks
     .map((chunk) => {
-      const name = c.toLowerCase();
+      const name = chunk.toLowerCase();
 
       if (typeof substitutions[set][name] !== "undefined") {
         return substitutions[set][name];

@@ -130,7 +130,7 @@ function parseChild(child, surly) {
   }
 
   if (node.raw_child_nodes && node.raw_child_nodes.length) {
-    node.children = node.raw_child_nodes.map((c) => parseChild(c));
+    node.children = node.raw_child_nodes.map((c) => parseChild(c, surly));
     node.raw_child_nodes = [];
   }
 
