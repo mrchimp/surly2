@@ -30,22 +30,18 @@ export default class Sentence extends BaseNode {
   }
 
   toString() {
-    this.evaluateChildren(function (err, text) {
-      debug("Sentence. text: ", text);
-      const sentences = text.toLowerCase().split(".");
+    const text = this.evaluateChildren();
+    const sentences = text.toLowerCase().split(".");
 
-      for (let i = 0; i < sentences.length; i++) {
-        sentences[i] = sentences[i].trim();
+    for (let i = 0; i < sentences.length; i++) {
+      sentences[i] = sentences[i].trim();
 
-        if (sentences[i].length === 0) {
-          continue;
-        }
-        sentences[i] = sentences[i][0].toUpperCase() + sentences[i].slice(1);
+      if (sentences[i].length === 0) {
+        continue;
       }
+      sentences[i] = sentences[i][0].toUpperCase() + sentences[i].slice(1);
+    }
 
-      text = sentences.join(". ");
-
-      return text;
-    });
+    return sentences.join(". ");
   }
 }
