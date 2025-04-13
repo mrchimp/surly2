@@ -1,4 +1,7 @@
 import substitutions from "../data/substitutions.json" with { type: "json" };
+import Debug from "debug";
+
+const debug = Debug("DEBUG");
 
 /**
  * Swap words in a given sentence from a given set of pairs.
@@ -7,20 +10,21 @@ import substitutions from "../data/substitutions.json" with { type: "json" };
  * @return {String}          Updated sentence
  */
 export default function substitute(sentence, set) {
+  debug("Substitutions - ", sentence, set);
   let x;
   let y;
-  const chunks = sentence.split(" ");
+  const words = sentence.split(" ");
 
   if (typeof substitutions[set] === "undefined") {
     throw "Invalid set.";
   }
 
-  const lowerCaseChunks = chunks
+  return words
     .map((chunk) => {
-      const name = chunk.toLowerCase();
+      const word = chunk.toLowerCase();
 
-      if (typeof substitutions[set][name] !== "undefined") {
-        return substitutions[set][name];
+      if (typeof substitutions[set][word] !== "undefined") {
+        return substitutions[set][word];
       }
 
       return;

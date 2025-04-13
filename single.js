@@ -38,7 +38,7 @@ if (options.version) {
   process.exit();
 }
 
-const [input] = conf._;
+const input = conf._.join(" ");
 
 if (!input) {
   throw new Error("No input given");

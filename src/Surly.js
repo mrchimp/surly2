@@ -49,7 +49,7 @@ export default class Surly {
     }
 
     const result = this.aiml.getResponse(sentence);
-    debug("Surly. talk(). result: ", result);
+    debug("Surly - talk  result: ", result);
     return this.handleResult(sentence, result);
   }
 

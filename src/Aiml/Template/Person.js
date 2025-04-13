@@ -1,9 +1,3 @@
-import BaseNode from "../BaseNode.js";
-
-import libxmljs from "libxmljs";
-import substitute from "../../Substitutions.js";
-import Star from "./Star.js";
-
 /**
  * From AIML Spec. Handles both the transformational PERSON element and
  * the PERSON shortcut element
@@ -48,10 +42,20 @@ import Star from "./Star.js";
  * implementation.
  */
 
+import BaseNode from "../BaseNode.js";
+import libxmljs from "libxmljs";
+import substitute from "../../Substitutions.js";
+import Star from "./Star.js";
+import Debug from "debug";
+
+const debug = Debug("DEBUG");
+
 export default class Person extends BaseNode {
   constructor(node, surly) {
     super(node, surly);
     this.type = "person";
+
+    debug(`Person - ChildNode count: ${node.childNodes().length}`);
 
     if (node.childNodes().length === 0) {
       const star = new libxmljs.Element(node.doc(), "star");
@@ -60,6 +64,7 @@ export default class Person extends BaseNode {
   }
 
   toString() {
+    debug("Person - tostring. Child count", this.children.length);
     return substitute(this.evaluateChildren(), "person");
   }
 }

@@ -50,7 +50,7 @@ export default class Category {
     this.pattern = new Pattern(patterns[0], surly);
 
     this.template = new Template(templates[0], surly);
-    this.template.children = parseChildren(this.template, false);
+    this.template.children.push(...parseChildren(this.template, false));
     this.template.category = this;
     this.template.raw_child_nodes = [];
 
@@ -60,7 +60,7 @@ export default class Category {
 
     if (thats.length === 1) {
       this.that = new PatternThat(thats[0], surly, this);
-      this.that.children = parseChildren(this.that, true);
+      this.that.children.push(...parseChildren(this.that, true));
       this.that.category = this;
       this.that.raw_child_nodes = [];
     }

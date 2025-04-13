@@ -36,7 +36,7 @@ export default class BaseNode {
     this.raw_child_nodes = node.childNodes();
 
     if (this.raw_child_nodes.length === 0) {
-      debug("BaseNode. No child nodes");
+      debug(`BaseNode (${this.type}) - No child nodes`);
       this.content = node.childNodes().toString();
     }
   }
@@ -46,7 +46,7 @@ export default class BaseNode {
    * @return {String}
    */
   toString() {
-    debug("BaseNode.toString() of ", this.type);
+    debug(`BaseNode (${this.type}) - toString()`);
     return this.evaluateChildren();
   }
 
@@ -56,27 +56,22 @@ export default class BaseNode {
    */
   evaluateChildren() {
     debug(
-      `BaseNode. evaluateChildren of ${this.type}. ${this.children.length} children.`,
+      `BaseNode (${this.type}) - evaluateChildren. ${this.children.length} children.`,
     );
-
-    // Hack to handle nodes that only have text in them
-    if (this.content) {
-      return this.content;
-    }
 
     const result = this.children
       .map((child) => {
         const text = child.toString();
-        debug("BaseNode. Child: ", child);
-        debug("BaseNode. Child text: ", text);
-        debug("BaseNode. Child name: ", child.type);
+        debug(`BaseNode (${this.type}) - Child: ${child}`);
+        debug(`BaseNode (${this.type}) - Child text: ${text}`);
+        debug(`BaseNode (${this.type}) - Child name: ${child.type}`);
 
         return text;
       })
       .join("")
       .trim();
     debug(
-      `BaseNode. evaluatingChildren result: "${result}", typeof: "${typeof result}"`,
+      `BaseNode (${this.type}) - evaluatingChildren result: "${result}", typeof: "${typeof result}"`,
     );
     return result;
   }

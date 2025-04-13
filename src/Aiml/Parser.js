@@ -135,7 +135,7 @@ function parseChild(child, surly) {
       break;
   }
 
-  node.children = parseChildren(node);
+  node.children.push(...parseChildren(node));
   node.raw_child_nodes = [];
 
   return node;

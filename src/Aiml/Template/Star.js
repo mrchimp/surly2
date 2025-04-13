@@ -1,5 +1,3 @@
-import BaseNode from "../BaseNode.js";
-
 /**
  * From AIML Spec
  * http://www.alicebot.org/TR/2001/WD-aiml/#section-star
@@ -22,6 +20,12 @@ import BaseNode from "../BaseNode.js";
  * <!-- Category: aiml-template-elements -->
  * <aiml:star index = single-integer-index />
  */
+
+import BaseNode from "../BaseNode.js";
+import Debug from "debug";
+
+const debug = Debug("DEBUG");
+
 export default class Star extends BaseNode {
   constructor(node, surly) {
     super(node, surly);
@@ -37,6 +41,7 @@ export default class Star extends BaseNode {
 
   toString() {
     const wildcards = this.surly.environment.wildcard_stack.getLast();
+    debug("Star - Wildcards:", wildcards);
 
     if (typeof wildcards[this.index] === "undefined") {
       this.log.log("ERROR: STAR with no matching * value.");
