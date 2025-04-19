@@ -49,6 +49,8 @@ process.stdout.write(prompt);
 
 const inputContext = {
   username,
+  isDM: "TRUE",
+  isGroupChat: "FALSE",
 };
 
 process.stdin.addListener("data", function (d) {

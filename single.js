@@ -51,6 +51,8 @@ const bot = new Surly({
 
 const inputContext = {
   username,
+  isDM: "TRUE",
+  isGroupChat: "FALSE",
 };
 
 // @todo get a signal that data is loaded rather than using a timeout

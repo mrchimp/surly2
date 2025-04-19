@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <aiml>
-  <category>
-    <pattern>WHO AM I</pattern>
-    <template><context property="username" /></template>
-  </category>
+    <category>
+        <pattern>WHO AM I</pattern>
+        <template><context property="username" /></template>
+    </category>
+
+    <category>
+        <pattern>IS DM</pattern>
+        <template><context property="isDM" /></template>
+    </category>
+
+    <category>
+        <pattern>IS GROUP CHAT</pattern>
+        <template><context property="isGroupChat" /></template>
+    </category>
 </aiml>
