@@ -43,7 +43,7 @@ export default class Category {
     return this.pattern;
   }
 
-  eval() {
+  eval(inputContext) {
     return this.getPattern().eval();
   }
 

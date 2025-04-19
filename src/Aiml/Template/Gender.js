@@ -62,7 +62,7 @@ export default class Gender extends BaseNode {
     }
   }
 
-  eval() {
-    return substitute(this.evaluateChildren(), "gender");
+  eval(inputContext) {
+    return substitute(this.evaluateChildren(inputContext), "gender");
   }
 }

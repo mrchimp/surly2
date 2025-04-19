@@ -46,6 +46,10 @@ const bot = new Surly({
 console.log("Surly: Hello! Type quit to quit or /help for unhelpful help.");
 process.stdout.write(prompt);
 
+const inputContext = {
+  username: "mrchimp",
+};
+
 process.stdin.addListener("data", function (d) {
   const sentence = d.toString().substring(0, d.length - 1);
 
@@ -54,7 +58,7 @@ process.stdin.addListener("data", function (d) {
     process.exit(0);
   }
 
-  const response = bot.talk(sentence);
+  const response = bot.talk(sentence, inputContext);
   process.stdout.write(`Surly: ${response} \n`);
   process.stdout.write(prompt);
 });

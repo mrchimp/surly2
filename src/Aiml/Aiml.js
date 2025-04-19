@@ -84,14 +84,14 @@ export default class Aiml {
    * @param {String}
    * @return {String}
    */
-  getResponse(sentence) {
+  getResponse(sentence, inputContext) {
     debug("Aiml. getResponse", sentence);
     const category = this.findMatchingCategory(sentence);
 
     if (category) {
       const template = category.getTemplate();
       verbose("Aiml. Got Template: ", template, `(typeof: ${typeof template})`);
-      const templateText = template.eval();
+      const templateText = template.eval(inputContext);
       debug(
         "Aiml. templateText: ",
         templateText,
@@ -124,7 +124,7 @@ export default class Aiml {
 
     let matchingCategory = this.topicCategories.find((category) => {
       debug(
-        `Aiml. Testing category match... "${category.toString()}" against "${sentence}"`,
+        `Aiml. Testing category match... "${category.eval()}" against "${sentence}"`,
       );
       verbose("Aiml. category: ", category);
       return category.match(sentence);
@@ -133,7 +133,7 @@ export default class Aiml {
     if (!matchingCategory) {
       matchingCategory = this.categories.find((category) => {
         debug(
-          `Aiml. Testing category match... "${category.toString()}" against "${sentence}"`,
+          `Aiml. Testing category match... "${category.eval()}" against "${sentence}"`,
         );
         verbose("Aiml. category: ", category);
         return category.match(sentence);

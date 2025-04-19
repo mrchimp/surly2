@@ -27,6 +27,7 @@ import Debug from "debug";
 import PatternThat from "./Pattern/That.js";
 import Category from "./Category.js";
 import Pattern from "./Pattern.js";
+import Context from "./Template/Context.js";
 
 const debug = Debug("DEBUG");
 
@@ -91,6 +92,7 @@ export function parseNode(surly, rawNode) {
     br: TextNode,
     bot: Bot,
     condition: Condition,
+    context: Context,
     date: DateNode,
     gender: Gender,
     get: Get,

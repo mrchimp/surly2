@@ -58,13 +58,13 @@ export default class Condition extends BaseNode {
     });
   }
 
-  eval() {
+  eval(inputContext) {
     switch (this.conditional_type) {
       case "blockCondition":
         const value = this.surly.environment.getVariable(this.name);
 
         if (value === this.value) {
-          return this.evaluateChildren();
+          return this.evaluateChildren(inputContext);
         } else {
           return "";
         }

@@ -30,7 +30,7 @@ export default class Pattern {
     this.regex = this.patternToRegex(this.text_pattern);
   }
 
-  eval() {
+  eval(inputContext) {
     return `${this.text_pattern}`;
   }
 

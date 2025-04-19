@@ -30,7 +30,7 @@ export default class Bot extends BaseNode {
     }
   }
 
-  eval() {
+  eval(inputContext) {
     return this.surly.environment.getBot(this.name);
   }
 }

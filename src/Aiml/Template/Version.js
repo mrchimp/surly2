@@ -23,7 +23,7 @@ export default class Version extends BaseNode {
     return this.type;
   }
 
-  eval() {
+  eval(inputContext) {
     return pkg.version;
   }
 }

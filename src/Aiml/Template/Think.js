@@ -22,8 +22,8 @@ export default class Think extends BaseNode {
     this.type = "think";
   }
 
-  eval() {
-    super.evaluateChildren();
+  eval(inputContext) {
+    super.evaluateChildren(inputContext);
     return "";
   }
 }

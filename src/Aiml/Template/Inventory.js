@@ -15,14 +15,14 @@ export default class Inventory extends BaseNode {
     this.action = node.getAttribute("action")?.value();
   }
 
-  eval() {
+  eval(inputContext) {
     switch (this.action) {
       case "list":
         return (
           "I am carrying " + this.surly.environment.inventory.join(", ") + "."
         );
       case "swap":
-        let text = super.evaluateChildren();
+        let text = super.evaluateChildren(inputContext);
         debug("Inventory - text: " + text);
         const dropped = this.surly.environment.inventoryPush(text);
         debug("Inventory - dropped", dropped);

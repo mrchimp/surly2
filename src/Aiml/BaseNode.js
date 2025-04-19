@@ -38,9 +38,9 @@ export default class BaseNode {
    * Render tag as text. To be overridden where necessary.
    * @return {String}
    */
-  eval() {
+  eval(inputContext) {
     debug(`BaseNode (${this.type}) - eval()`);
-    return this.evaluateChildren();
+    return this.evaluateChildren(inputContext);
   }
 
   toString() {
@@ -51,7 +51,7 @@ export default class BaseNode {
    * Evaluate child nodes as text. For use in child class toString methods.
    * @return {String}
    */
-  evaluateChildren() {
+  evaluateChildren(inputContext) {
     debug(
       `BaseNode (${this.type}) - evaluateChildren. ${this.children.length} children.`,
     );

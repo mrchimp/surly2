@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aiml>
+  <category>
+    <pattern>WHO AM I</pattern>
+    <template><context attribute="username" /></template>
+  </category>
+</aiml>

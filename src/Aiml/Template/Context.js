@@ -13,13 +13,14 @@ import BaseNode from "../BaseNode.js";
  * <!-- Category: aiml-template-elements -->
  * <aiml:date/>
  */
-export default class DateNode extends BaseNode {
+export default class Context extends BaseNode {
   constructor(node, surly) {
     super(node, surly);
-    this.type = "date";
+    this.type = "context";
+    this.property = node.getAttribute("property")?.value();
   }
 
   eval(inputContext) {
-    return new Date().toISOString(); // @todo - nice formatting
+    return inputContext[this.property];
   }
 }

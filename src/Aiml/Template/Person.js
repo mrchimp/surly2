@@ -63,8 +63,8 @@ export default class Person extends BaseNode {
     }
   }
 
-  eval() {
+  eval(inputContext) {
     debug("Person - eval. Child count", this.children.length);
-    return substitute(this.evaluateChildren(), "person");
+    return substitute(this.evaluateChildren(inputContext), "person");
   }
 }

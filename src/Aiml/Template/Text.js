@@ -32,7 +32,7 @@ export default class Text extends BaseNode {
    * Return the node and any children as text
    * @return {String}
    */
-  eval() {
+  eval(inputContext) {
     return this.content;
   }
 }

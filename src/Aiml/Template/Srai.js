@@ -33,7 +33,7 @@ export default class Srai extends BaseNode {
    * Return content as text
    * @return {String}
    */
-  eval() {
-    return this.surly.talk(this.evaluateChildren());
+  eval(inputContext) {
+    return this.surly.talk(this.evaluateChildren(inputContext));
   }
 }

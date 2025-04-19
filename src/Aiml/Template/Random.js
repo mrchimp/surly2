@@ -20,10 +20,10 @@ export default class Random extends BaseNode {
     this.type = "random";
   }
 
-  eval() {
+  eval(inputContext) {
     const elem =
       this.children[Math.floor(Math.random() * this.children.length)];
 
-    return elem.eval();
+    return elem.eval(inputContext);
   }
 }

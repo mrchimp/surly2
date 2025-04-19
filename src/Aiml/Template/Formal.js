@@ -26,8 +26,8 @@ export default class Formal extends BaseNode {
     this.type = "formal";
   }
 
-  eval() {
-    return this.evaluateChildren()
+  eval(inputContext) {
+    return this.evaluateChildren(inputContext)
       .toLowerCase()
       .replace(/(?:^|\s)\S/g, function (a) {
         return a.toUpperCase();

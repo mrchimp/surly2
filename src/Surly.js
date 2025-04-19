@@ -25,10 +25,10 @@ export default class Surly {
   /**
    * Say 'sentence' to Surly
    * @param  {String}   sentence
-   * @param  {Function} callback
+   * @param  {Object} inputContext
    * @return {String}
    */
-  talk(sentence, callback, user_id) {
+  talk(sentence, inputContext) {
     this.start_time = new Date();
 
     debug("-----------------------------");
@@ -48,7 +48,7 @@ export default class Surly {
       return "No AIML files loaded.";
     }
 
-    const result = this.aiml.getResponse(sentence);
+    const result = this.aiml.getResponse(sentence, inputContext);
     debug("Surly - talk  result: ", result);
     return this.handleResult(sentence, result);
   }

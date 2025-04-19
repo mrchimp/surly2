@@ -59,7 +59,7 @@ export default class Person2 extends BaseNode {
     }
   }
 
-  eval() {
-    return substitute(this.evaluateChildren(), "person2");
+  eval(inputContext) {
+    return substitute(this.evaluateChildren(inputContext), "person2");
   }
 }
