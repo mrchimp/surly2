@@ -25,118 +25,109 @@ import Uppercase from "./Template/Uppercase.js";
 import Version from "./Template/Version.js";
 import Debug from "debug";
 import PatternThat from "./Pattern/That.js";
+import Category from "./Category.js";
+import Pattern from "./Pattern.js";
 
 const debug = Debug("DEBUG");
 
-export function parseChildren(node) {
-  let children = [];
-
-  if (node.raw_child_nodes && node.raw_child_nodes.length) {
-    children = node.raw_child_nodes.map((child) => {
-      return parseChild(child, node.surly);
-    });
-  }
-
-  return children;
+export function parseCategories(surly, topic, ...categories) {
+  debug(`parseNodes - parsing ${categories.length} nodes`);
+  return categories.map((node) => parseCategory(surly, node, topic));
 }
 
-function parseChild(child, surly) {
-  let node;
-  let children = [];
+export function parseCategory(surly, rawCategory, topic) {
+  const category = new Category(rawCategory, surly, topic);
 
-  const node_type = child.name().toLowerCase();
+  const patterns = rawCategory.find("pattern");
+  const templates = rawCategory.find("template");
+  const thats = rawCategory.find("that");
 
-  debug(
-    "parseChild",
-    `"${node_type}"`,
-    typeof node_type,
-    typeof child === "string" ? child : child.toString(),
-  );
-
-  switch (node_type) {
-    case "a": // Treat A tags as plain text. @todo
-    case "text":
-      node = new TextNode(child, surly);
-      break;
-    case "br":
-      node = new TextNode("\n", surly);
-      break;
-    case "bot":
-      node = new Bot(child, surly);
-      break;
-    case "condition":
-      node = new Condition(child, surly);
-      break;
-    case "date":
-      node = new DateNode(child, surly);
-      break;
-    case "gender":
-      node = new Gender(child, surly);
-      break;
-    case "get":
-      node = new Get(child, surly);
-      break;
-    case "input":
-      node = new Input(child, surly);
-      break;
-    case "inventory":
-      node = new Inventory(child, surly);
-      break;
-    case "li":
-      node = new Li(child, surly);
-      break;
-    case "lowercase":
-      node = new Lowercase(child, surly);
-      break;
-    case "person":
-      node = new Person(child, surly);
-      break;
-    case "person2":
-      node = new Person2(child, surly);
-      break;
-    case "random":
-      node = new Random(child, surly);
-      break;
-    case "set":
-      node = new SetNode(child, surly);
-      break;
-    case "size":
-      node = new Size(child, surly);
-      break;
-    case "sr":
-      node = new Sr(child, surly);
-      break;
-    case "srai":
-      node = new Srai(child, surly);
-      break;
-    case "star":
-      node = new Star(child, surly);
-      break;
-    case "uppercase":
-      node = new Uppercase(child, surly);
-      break;
-    case "formal":
-      node = new Formal(child, surly);
-      break;
-    case "sentence":
-      node = new Sentence(child, surly);
-      break;
-    case "that":
-      node = new That(child, surly);
-      break;
-    case "think":
-      node = new Think(child, surly);
-      break;
-    case "version":
-      node = new Version(child, surly);
-      break;
-    default:
-      node = new TextNode("[NOT IMPLEMENTED: " + node_type + "]", surly);
-      break;
+  if (patterns.length !== 1) {
+    throw "Category should have exactly one PATTERN.";
   }
 
-  node.children.push(...parseChildren(node));
-  node.raw_child_nodes = [];
+  if (templates.length !== 1) {
+    throw "Category should have exactly one TEMPLATE.";
+  }
+
+  if (thats.length > 1) {
+    throw "Category must not contain more than one THAT.";
+  }
+
+  category.pattern = parseNode(surly, patterns[0]);
+  category.template = parseNode(surly, templates[0]);
+  if (thats.length === 1) {
+    category.that = parsePatternThat(surly, thats[0], category);
+  }
+
+  return category;
+}
+
+export function parsePatternThat(surly, rawThat, category) {
+  const pattern = new PatternThat(rawThat, surly);
+  pattern.children = parseNodes(surly, ...rawThat.childNodes());
+  pattern.category = category;
+  return pattern;
+}
+
+export function parseNodes(surly, ...nodes) {
+  debug(`parseNodes - parsing ${nodes.length} nodes`);
+  return nodes.map((node) => parseNode(surly, node));
+}
+
+export function parseNode(surly, rawNode) {
+  const nodeType = rawNode.name().toLowerCase();
+
+  debug(`parseNode - parsing ${nodeType} node`);
+
+  const nodeTypes = {
+    category: Category,
+    template: Template,
+    pattern: Pattern,
+
+    // Treat A tags as plain text. @todo
+    a: TextNode,
+    text: TextNode,
+    br: TextNode,
+    bot: Bot,
+    condition: Condition,
+    date: DateNode,
+    gender: Gender,
+    get: Get,
+    input: Input,
+    inventory: Inventory,
+    li: Li,
+    lowercase: Lowercase,
+    person: Person,
+    person2: Person2,
+    random: Random,
+    set: SetNode,
+    size: Size,
+    sr: Sr,
+    srai: Srai,
+    star: Star,
+    uppercase: Uppercase,
+    formal: Formal,
+    sentence: Sentence,
+    that: That,
+    think: Think,
+    version: Version,
+  };
+
+  let node;
+  if (typeof nodeTypes[nodeType] !== "undefined") {
+    node = new nodeTypes[nodeType](rawNode, surly);
+  } else {
+    throw new Error(`Not implemented: ${nodeType}`);
+  }
+
+  debug(
+    `Parser.parseNode() - Checking children. Found ${rawNode.childNodes().length}`,
+  );
+
+  const children = parseNodes(surly, ...rawNode.childNodes());
+
+  node.setChildren(children);
 
   return node;
 }

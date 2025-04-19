@@ -25,7 +25,7 @@ export default class Lowercase extends BaseNode {
     this.type = "lowercase";
   }
 
-  toString() {
+  eval() {
     return this.evaluateChildren().toLowerCase();
   }
 }

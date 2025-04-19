@@ -58,7 +58,7 @@ export default class Condition extends BaseNode {
     });
   }
 
-  toString() {
+  eval() {
     switch (this.conditional_type) {
       case "blockCondition":
         const value = this.surly.environment.getVariable(this.name);
@@ -78,7 +78,7 @@ export default class Condition extends BaseNode {
           if (
             actual_value.toUpperCase() === this.children[i].value.toUpperCase()
           ) {
-            return this.children[i].toString();
+            return this.children[i].eval();
           }
         }
         return "";

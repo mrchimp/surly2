@@ -1,4 +1,7 @@
 import BaseNode from "../BaseNode.js";
+import Debug from "debug";
+
+const debug = Debug("DEBUG");
 
 /**
  * Not part of the AIML Spec.
@@ -12,7 +15,7 @@ export default class Inventory extends BaseNode {
     this.action = node.getAttribute("action")?.value();
   }
 
-  toString() {
+  eval() {
     switch (this.action) {
       case "list":
         return (
@@ -20,8 +23,11 @@ export default class Inventory extends BaseNode {
         );
       case "swap":
         let text = super.evaluateChildren();
+        debug("Inventory - text: " + text);
         const dropped = this.surly.environment.inventoryPush(text);
+        debug("Inventory - dropped", dropped);
         this.surly.environment.setVariable("last_dropped", dropped);
+        debug("Inventory", this.surly.environment.inventory);
         return "";
       default:
         return "Invalid inventory action: " + this.action, "[ERROR!]";

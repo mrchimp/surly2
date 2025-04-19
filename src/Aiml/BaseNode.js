@@ -28,26 +28,23 @@ export default class BaseNode {
     if (node === null) {
       return;
     }
+  }
 
-    if (typeof node.childNodes !== "function") {
-      return false;
-    }
-
-    this.raw_child_nodes = node.childNodes();
-
-    if (this.raw_child_nodes.length === 0) {
-      debug(`BaseNode (${this.type}) - No child nodes`);
-      this.content = node.childNodes().toString();
-    }
+  setChildren(children) {
+    this.children = children;
   }
 
   /**
    * Render tag as text. To be overridden where necessary.
    * @return {String}
    */
-  toString() {
-    debug(`BaseNode (${this.type}) - toString()`);
+  eval() {
+    debug(`BaseNode (${this.type}) - eval()`);
     return this.evaluateChildren();
+  }
+
+  toString() {
+    return `[Node of Type "${this.type}"]`;
   }
 
   /**
@@ -61,7 +58,7 @@ export default class BaseNode {
 
     const result = this.children
       .map((child) => {
-        const text = child.toString();
+        const text = child.eval();
         debug(`BaseNode (${this.type}) - Child: ${child}`);
         debug(`BaseNode (${this.type}) - Child text: ${text}`);
         debug(`BaseNode (${this.type}) - Child name: ${child.type}`);

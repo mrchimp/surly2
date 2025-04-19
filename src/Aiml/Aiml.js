@@ -2,6 +2,7 @@ import fs from "fs";
 import libxmljs from "libxmljs";
 import Category from "./Category.js";
 import Debug from "debug";
+import { parseCategories, parseNodes } from "./Parser.js";
 
 const debug = Debug("DEBUG");
 const verbose = Debug("VERBOSE");
@@ -16,6 +17,7 @@ export default class Aiml {
   constructor(options) {
     this.surly = options.surly;
     this.categories = [];
+    this.topicCategories = [];
     this.wipe();
   }
 
@@ -25,6 +27,7 @@ export default class Aiml {
    */
   wipe() {
     this.categories = [];
+    this.topicCategories = [];
     this.topics = ["*"];
   }
 
@@ -36,31 +39,25 @@ export default class Aiml {
     debug("Aiml. Parsing AIML...");
     const xmlDoc = await libxmljs.parseXmlAsync(aiml);
     debug("Aiml. got xmlDoc");
-    const topics = xmlDoc.find("topic");
-    debug("Aiml. got topics: ", topics.length);
-    let categories;
 
+    const topics = xmlDoc.find("topic");
     debug(`Aiml. Found ${topics.length} topic categories`);
+
+    const categories = xmlDoc.find("category");
+    debug(`Aiml - found ${categories.length} categories`);
 
     // Handle topic cats first - they should be matched first
     topics.forEach((topic) => {
-      const topic_name = topic.getAttribute("name")?.value();
-      topic.find("category").forEach((cat) => {
-        debug("Aiml. Found topic category");
-        this.categories.push(new Category(cat, this.surly, topic_name));
-      });
+      const topicName = topic.getAttribute("name")?.value();
+
+      this.topicCategories.push(
+        ...parseCategories(this.surly, topicName, ...topic.find("category")),
+      );
     });
 
-    debug(
-      `Aiml. Successfully parsed ${this.categories.length} topic categories`,
+    this.categories.push(
+      ...parseCategories(this.surly, undefined, ...categories),
     );
-
-    categories = xmlDoc.find("category");
-    debug(`Aiml. Parsing ${categories.length} categories.`);
-
-    categories.forEach((cat) => {
-      this.categories.push(new Category(cat, this.surly));
-    });
 
     this.debugPrintCategories();
   }
@@ -94,7 +91,7 @@ export default class Aiml {
     if (category) {
       const template = category.getTemplate();
       verbose("Aiml. Got Template: ", template, `(typeof: ${typeof template})`);
-      const templateText = template.toString();
+      const templateText = template.eval();
       debug(
         "Aiml. templateText: ",
         templateText,
@@ -125,7 +122,7 @@ export default class Aiml {
 
     debug("Aiml. findMatchingCategory for sentence: ", sentence);
 
-    const matchingCategory = this.categories.find((category) => {
+    let matchingCategory = this.topicCategories.find((category) => {
       debug(
         `Aiml. Testing category match... "${category.toString()}" against "${sentence}"`,
       );
@@ -133,11 +130,19 @@ export default class Aiml {
       return category.match(sentence);
     });
 
+    if (!matchingCategory) {
+      matchingCategory = this.categories.find((category) => {
+        debug(
+          `Aiml. Testing category match... "${category.toString()}" against "${sentence}"`,
+        );
+        verbose("Aiml. category: ", category);
+        return category.match(sentence);
+      });
+    }
+
     debug("Aiml. matchingCategory", typeof matchingCategory);
 
     return matchingCategory;
-
-    // @todo do something if no match maybe?
   }
 
   /**
@@ -161,7 +166,7 @@ export default class Aiml {
       } else if (name.slice(-5).toLowerCase() !== ".aiml") {
         debug("Aiml. Ignoring file: ", name);
       } else {
-        this.loadFile(name);
+        await this.loadFile(name);
       }
     }
   }
@@ -169,7 +174,7 @@ export default class Aiml {
   /**
    * Load an AIML file
    * @param  {String} file
-   * @return {Void}
+   * @return {Promise}
    */
   async loadFile(file) {
     debug("Aiml. Loading file: " + file);
@@ -185,7 +190,7 @@ export default class Aiml {
       }
     }
 
-    await this.parseAiml(xml);
+    return this.parseAiml(xml);
   }
 
   /**

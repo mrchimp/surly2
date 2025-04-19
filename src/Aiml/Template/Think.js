@@ -22,7 +22,7 @@ export default class Think extends BaseNode {
     this.type = "think";
   }
 
-  toString() {
+  eval() {
     super.evaluateChildren();
     return "";
   }

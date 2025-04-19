@@ -19,7 +19,7 @@ export default class DateNode extends BaseNode {
     this.type = "date";
   }
 
-  toString() {
+  eval() {
     return new Date().toISOString(); // @todo - nice formatting
   }
 }

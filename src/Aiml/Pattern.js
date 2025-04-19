@@ -30,8 +30,12 @@ export default class Pattern {
     this.regex = this.patternToRegex(this.text_pattern);
   }
 
-  toString() {
+  eval() {
     return `${this.text_pattern}`;
+  }
+
+  setChildren(children) {
+    this.children = children;
   }
 
   /**
@@ -111,12 +115,14 @@ export default class Pattern {
       (matches[0].length >= sentence.length ||
         this.text_pattern.indexOf(this.wildcard_regex) > -1)
     ) {
+      debug(`Pattern.compare() - MATCH!`);
       this.surly.environment.wildcard_stack.push(
         this.getWildCardValues(sentence),
       );
       return true;
     }
 
+    debug("Pattern.compare() - NO MATCH");
     return false;
   }
 

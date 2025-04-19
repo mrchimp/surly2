@@ -18,7 +18,7 @@ export default class Size extends BaseNode {
     this.type = "size";
   }
 
-  toString() {
+  eval() {
     return this.surly.environment.countCategories();
   }
 }

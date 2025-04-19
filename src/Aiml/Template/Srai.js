@@ -26,14 +26,14 @@ export default class Srai extends BaseNode {
   constructor(node, surly) {
     super(node, surly);
     this.type = "srai";
-    this.content = node.text().toString();
+    this.content = node.text().eval();
   }
 
   /**
    * Return content as text
    * @return {String}
    */
-  toString() {
+  eval() {
     return this.surly.talk(this.evaluateChildren());
   }
 }

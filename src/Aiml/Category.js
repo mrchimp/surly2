@@ -2,7 +2,6 @@ import Template from "./Template.js";
 import Pattern from "./Pattern.js";
 import PatternThat from "./Pattern/That.js";
 import Debug from "debug";
-import { parseChildren } from "./Parser.js";
 
 const debug = Debug("DEBUG");
 
@@ -30,40 +29,10 @@ export default class Category {
    * Constructor method
    * @param  {Node} node Xmllibjs node object
    */
-  constructor(category, surly, topic) {
-    this.topic = topic || "*";
+  constructor(category, surly, topic = "*") {
+    this.topic = topic;
     this.surly = surly;
     this.that = null;
-
-    const patterns = category.find("pattern");
-    const templates = category.find("template");
-    const thats = category.find("that");
-
-    if (patterns.length !== 1) {
-      throw "Category should have exactly one PATTERN.";
-    }
-
-    if (templates.length !== 1) {
-      throw "Category should have exactly one TEMPLATE.";
-    }
-
-    this.pattern = new Pattern(patterns[0], surly);
-
-    this.template = new Template(templates[0], surly);
-    this.template.children.push(...parseChildren(this.template, false));
-    this.template.category = this;
-    this.template.raw_child_nodes = [];
-
-    if (thats.length > 1) {
-      throw "Category must not contain more than one THAT.";
-    }
-
-    if (thats.length === 1) {
-      this.that = new PatternThat(thats[0], surly, this);
-      this.that.children.push(...parseChildren(this.that, true));
-      this.that.category = this;
-      this.that.raw_child_nodes = [];
-    }
   }
 
   /**
@@ -74,28 +43,41 @@ export default class Category {
     return this.pattern;
   }
 
-  toString() {
-    return this.getPattern().toString();
+  eval() {
+    return this.getPattern().eval();
+  }
+
+  setChildren(children) {
+    this.chidlren = children;
   }
 
   /**
    * Check whether the category has a <that> and whether
    * if matches the previous response
+   * @todo should be doing this logic on the THAT probably
    * @return {Boolean}          True if <that> exists and matches
    */
   checkThat() {
     // If no THAT then it matches by default
     if (!this.that) {
-      debug("Category. No THAT.");
+      debug("Category.checkThat() - No THAT, so it's a match.");
       return true;
     }
 
-    const thatText = this.that.toString();
+    const thatText = this.that.eval();
+
+    if (!thatText) {
+      debug("Category.checkThat() - thatText is empty, so it's a match");
+      return true;
+    }
 
     const previous = this.surly.environment
       .getPreviousResponse(1)
       .toUpperCase();
-    debug('Category. Comparing THAT - "' + thatText + '", "' + previous + '"');
+
+    debug(
+      `Category.checkThat() - Comparing THAT "${thatText}" with previous input "${previous}"`,
+    );
     return thatText === previous;
   }
 
@@ -115,12 +97,16 @@ export default class Category {
    */
   match(sentence) {
     if (this.pattern.compare(sentence)) {
-      debug("Category. Matched pattern: " + sentence + " -- " + this.pattern);
+      debug("Category - Matched pattern: " + sentence + " -- " + this.pattern);
 
-      if (
-        this.topic !== "*" &&
-        this.topic.toUpperCase() !== this.surly.environment.getVariable("topic")
-      ) {
+      const currentTopic = this.surly.environment.getVariable("topic");
+
+      debug(
+        `Category - Comparing topic "${this.topic.toUpperCase()}" with current topic "`,
+      );
+
+      if (this.topic !== "*" && this.topic.toUpperCase() !== currentTopic) {
+        debug("Topic doesn't match.");
         return false;
       }
 

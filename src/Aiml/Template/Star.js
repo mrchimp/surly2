@@ -39,7 +39,7 @@ export default class Star extends BaseNode {
     }
   }
 
-  toString() {
+  eval() {
     const wildcards = this.surly.environment.wildcard_stack.getLast();
     debug("Star - Wildcards:", wildcards);
 

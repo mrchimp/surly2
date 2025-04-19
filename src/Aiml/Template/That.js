@@ -1,4 +1,7 @@
 import BaseNode from "../BaseNode.js";
+import Debug from "debug";
+
+const debug = Debug("DEBUG");
 
 /**
  * From AIML Spec
@@ -50,12 +53,12 @@ class That extends BaseNode {
     this.index = parseInt(index[0], 10);
   }
 
-  toString() {
+  eval() {
     const result = this.surly.environment.getPreviousResponse(
       this.index,
       this.sentence,
     );
-    debug("That toString result", result, typeof result);
+    debug("That eval result", result, typeof result);
     return result;
   }
 }

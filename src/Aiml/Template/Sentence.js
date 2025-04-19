@@ -29,7 +29,7 @@ export default class Sentence extends BaseNode {
     this.type = "sentence";
   }
 
-  toString() {
+  eval() {
     const text = this.evaluateChildren();
     const sentences = text.toLowerCase().split(".");
 

@@ -24,7 +24,7 @@ export default class Uppercase extends BaseNode {
     this.type = "uppercase";
   }
 
-  toString() {
+  eval() {
     return this.evaluateChildren().toUpperCase();
   }
 }
