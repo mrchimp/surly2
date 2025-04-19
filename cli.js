@@ -4,12 +4,12 @@ import pkg from "./package.json" with { type: "json" };
 import Surly from "./src/Surly.js";
 import Rc from "rc";
 import Debug from "debug";
+import "dotenv/config";
 
 const username = process.env.USER || "";
 const __dirname = import.meta.dirname;
 
 const conf = Rc("surly2", {
-  brain: "",
   b: "",
   help: false,
   version: false,
@@ -17,7 +17,6 @@ const conf = Rc("surly2", {
 const debug = Debug("DEBUG");
 
 const options = {
-  brain: conf.b || conf.brain || __dirname + "/data/aiml",
   help: conf.help || conf.h,
   version: conf.version,
 };
@@ -28,7 +27,6 @@ if (options.help) {
   console.log(
     "Surly chat bot command line interface\n\n" +
       "Options: \n" +
-      "  -b, --brain       AIML directory (aiml/)\n" +
       "  --help            Show this help message\n" +
       "  --version         Show version number",
   );
@@ -41,7 +39,7 @@ if (options.version) {
 }
 
 const bot = new Surly({
-  brain: options.brain,
+  brain: process.env.SURLY_BRAIN,
 });
 
 console.log("Surly: Hello! Type quit to quit or /help for unhelpful help.");
@@ -50,7 +48,7 @@ process.stdout.write(prompt);
 const inputContext = {
   username,
   isDM: "TRUE",
-  isGroupChat: "FALSE",
+  isVoiceChat: "FALSE",
 };
 
 process.stdin.addListener("data", function (d) {

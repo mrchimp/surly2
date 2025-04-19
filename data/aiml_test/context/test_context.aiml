@@ -11,7 +11,7 @@
     </category>
 
     <category>
-        <pattern>IS GROUP CHAT</pattern>
-        <template><context property="isGroupChat" /></template>
+        <pattern>IS VOICE CHAT</pattern>
+        <template><context property="isVoiceChat" /></template>
     </category>
 </aiml>

@@ -10,8 +10,6 @@ const debug = Debug("DEBUG");
 export default class Surly {
   constructor(options) {
     this.input_stack = new Stack(10);
-    this.callbacks = {};
-    this.callbacks.respond = options.respond;
     this.environment = new Environment();
     this.aiml = new Aiml({
       surly: this,
