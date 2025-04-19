@@ -124,7 +124,7 @@ export default class Aiml {
 
     let matchingCategory = this.topicCategories.find((category) => {
       debug(
-        `Aiml. Testing category match... "${category.eval()}" against "${sentence}"`,
+        `Aiml. Testing category match... "${category.toString()}" against "${sentence}"`,
       );
       verbose("Aiml. category: ", category);
       return category.match(sentence);
@@ -133,7 +133,7 @@ export default class Aiml {
     if (!matchingCategory) {
       matchingCategory = this.categories.find((category) => {
         debug(
-          `Aiml. Testing category match... "${category.eval()}" against "${sentence}"`,
+          `Aiml. Testing category match... "${category.toString()}" against "${sentence}"`,
         );
         verbose("Aiml. category: ", category);
         return category.match(sentence);

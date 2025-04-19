@@ -5,6 +5,7 @@ import Surly from "./src/Surly.js";
 import Rc from "rc";
 import Debug from "debug";
 
+const username = process.env.USER || "";
 const __dirname = import.meta.dirname;
 
 const conf = Rc("surly2", {
@@ -47,7 +48,7 @@ console.log("Surly: Hello! Type quit to quit or /help for unhelpful help.");
 process.stdout.write(prompt);
 
 const inputContext = {
-  username: "mrchimp",
+  username,
 };
 
 process.stdin.addListener("data", function (d) {
@@ -58,7 +59,11 @@ process.stdin.addListener("data", function (d) {
     process.exit(0);
   }
 
+  console.log("Input Context");
+  console.log(inputContext);
+  process.exit();
+
   const response = bot.talk(sentence, inputContext);
-  process.stdout.write(`Surly: ${response} \n`);
+  process.stdout.write(`Surly: ${response}\n`);
   process.stdout.write(prompt);
 });

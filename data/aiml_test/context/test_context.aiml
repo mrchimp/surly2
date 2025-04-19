@@ -2,6 +2,6 @@
 <aiml>
   <category>
     <pattern>WHO AM I</pattern>
-    <template><context attribute="username" /></template>
+    <template><context property="username" /></template>
   </category>
 </aiml>

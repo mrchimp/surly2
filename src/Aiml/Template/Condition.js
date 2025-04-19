@@ -78,7 +78,7 @@ export default class Condition extends BaseNode {
           if (
             actual_value.toUpperCase() === this.children[i].value.toUpperCase()
           ) {
-            return this.children[i].eval();
+            return this.children[i].eval(inputContext);
           }
         }
         return "";

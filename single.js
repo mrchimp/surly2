@@ -4,6 +4,7 @@ import Surly from "./src/Surly.js";
 import Rc from "rc";
 import Debug from "debug";
 
+const username = process.env.USER || "";
 const __dirname = import.meta.dirname;
 
 const conf = Rc("surly2", {
@@ -48,13 +49,16 @@ const bot = new Surly({
   brain: options.brain,
 });
 
+const inputContext = {
+  username,
+};
+
 // @todo get a signal that data is loaded rather than using a timeout
 setTimeout(() => {
   process.stdout.write(
     "Surly: Hello! Type quit to quit or /help for unhelpful help.",
   );
   process.stdout.write(`You: ${input}`);
-  bot.talk(input, function (err, response) {
-    process.stdout.write("Surly: " + response);
-  });
+  const response = bot.talk(input, inputContext);
+  process.stdout.write(`Surly: ${response}\n`);
 }, 1000);

@@ -1,4 +1,7 @@
 import BaseNode from "../BaseNode.js";
+import Debug from "debug";
+
+const debug = Debug("DEBUG");
 
 /**
  * From AIML Spec

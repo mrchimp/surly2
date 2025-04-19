@@ -44,7 +44,7 @@ export default class Category {
   }
 
   eval(inputContext) {
-    return this.getPattern().eval();
+    return this.getPattern().eval(inuptContext);
   }
 
   setChildren(children) {

@@ -58,7 +58,7 @@ export default class BaseNode {
 
     const result = this.children
       .map((child) => {
-        const text = child.eval();
+        const text = child.eval(inputContext);
         debug(`BaseNode (${this.type}) - Child: ${child}`);
         debug(`BaseNode (${this.type}) - Child text: ${text}`);
         debug(`BaseNode (${this.type}) - Child name: ${child.type}`);
